@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>VMware下Ubuntu的磁盘扩容问题 | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="介绍使用Gparted工具为Ubuntu扩容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware下Ubuntu的磁盘扩容问题">
+<meta property="og:url" content="https://colainlibrary.com/posts/48591.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="介绍使用Gparted工具为Ubuntu扩容">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-8.jpg">
+<meta property="article:published_time" content="2019-07-31T13:30:00.000Z">
+<meta property="article:modified_time" content="2022-08-18T05:23:16.076Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="Library">
+<meta property="article:tag" content="VMware">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-8.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VMware下Ubuntu的磁盘扩容问题",
+  "url": "https://colainlibrary.com/posts/48591.html",
+  "image": "https://colainlibrary.com/images/post-8.jpg",
+  "datePublished": "2019-07-31T13:30:00.000Z",
+  "dateModified": "2022-08-18T05:23:16.076Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/48591.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'VMware下Ubuntu的磁盘扩容问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-8.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">VMware下Ubuntu的磁盘扩容问题</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">VMware下Ubuntu的磁盘扩容问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-07-31T13:30:00.000Z" title="发表于 2019-07-31 21:30:00">2019-07-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-18T05:23:16.076Z" title="更新于 2022-08-18 13:23:16">2022-08-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E7%A7%91%E7%94%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F/">工科生的基本功</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E7%A7%91%E7%94%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F/%E8%BD%AF%E4%BB%B6%E6%8A%80%E6%9C%AF/">软件技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>本文中的环境为Ubuntu16.04LTS + VMware10 + gparted-live-1.0.0-3.</p>
+</blockquote>
+<span id="more"></span>
+<h1>前言</h1>
+<p>由于刚开始使用虚拟机时，随便分配了一块硬盘大小，至今发现虚拟机下的Ubuntu硬盘空间告急，因此需要在不损失原有硬盘文件的情况下进行扩容。在VMware10中对虚拟机进行扩容主要分为两部分：</p>
+<ol>
+<li>
+<p>在VMware中进行设置，修改预设磁盘大小；</p>
+</li>
+<li>
+<p>将额外划分出来的磁盘与原虚拟机中Ubuntu的磁盘进行合并(本文介绍)或添加。</p>
+</li>
+</ol>
+<blockquote>
+<p>在进行扩容前，需要下载好gparted-live-1.0.0-3.iso文件，注意这不是在Ubuntu的Terminal中用apt-get来下载。文件下载链接<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/gparted/files/">请点这里</a>。(该网页下载速度缓慢，可能需要开启VPN或者另寻他处)</p>
+</blockquote>
+<h1>扩容方法</h1>
+<p>1.首先将下载好的gparted-live.iso文件装载到虚拟机的虚拟光驱中，如下图所示。这是由于在Ubuntu正常开启状态时，磁盘处于mount状态，无法扩容。因此，需要采用类似用U盘安装系统那样来启动系统进行磁盘扩容。</p>
+<p><img src="/images/20190731VMware/01.png" alt="01.png"></p>
+<p>2.点击：虚拟机 --&gt; 设置，对硬盘进行扩容，如下所示，要从“实用工具”的下拉列表中选择“扩展”，等待扩展完成(笔者是从60G扩展到70G的，但是前面几张图是后补的，所以直接显示是70G)。</p>
+<p><img src="/images/20190731VMware/02.png" alt="02.png"><br>
+<img src="/images/20190731VMware/03.png" alt="03.png"><br>
+<img src="/images/20190731VMware/04.png" alt="04.png"></p>
+<p>3.打开虚拟机，在下面画面出现时快速按下 ESC 键。</p>
+<p><img src="/images/20190731VMware/05.png" alt="05.png"></p>
+<p>出现 Boot Menu，从中选择 CD-ROM Drive，如下所示。</p>
+<p><img src="/images/20190731VMware/07.png" alt="07.png"></p>
+<p>4.CD启动的就是GParted Live，如下所示：</p>
+<p><img src="/images/20190731VMware/08.png" alt="08.png"></p>
+<p>选择第一个，弹出下面的画面：</p>
+<p><img src="/images/20190731VMware/09.png" alt="09.png"></p>
+<p>直接点回车即可，接下来进入语言选择。</p>
+<p><img src="/images/20190731VMware/10.png" alt="10.png"></p>
+<p>在上图的圆圈处输入<code>26</code>，选择中文。稍后出现下面的画面，并输入<code>0</code>。</p>
+<p><img src="/images/20190731VMware/11.png" alt="11.png"></p>
+<p>5.之后即可正常进入CD启动的系统，如没有自动进入下面画面，请在桌面点击<code>GParted</code>，进入。</p>
+<p><img src="/images/20190731VMware/12.png" alt="12.png"></p>
+<p>从上图可以看到，已经使用57.99G，有10G未分配，还有2G是用来做swap区的。依次将第一个下面的<code>extended</code>和<code>linux-swap</code>都删除，可以得到下面的图片。</p>
+<p><img src="/images/20190731VMware/13.png" alt="13.png"></p>
+<p>从上图可以看到，未分配的空间已经从10G变成了12G。接下来，就准备对sda1进行扩容。右键点击，选择调整大小，留下2G空间作swap，如下图所示。</p>
+<p><img src="/images/20190731VMware/14.png" alt="14.png"></p>
+<p>扩容后的效果如下图所示。</p>
+<p><img src="/images/20190731VMware/15.png" alt="15.png"></p>
+<p>从上图中，可以看到sda1已经由原来的58G变为68G，说明扩容成功。还剩下2G，需要分配为<code>linux-swap</code>。在未分配的区域右键选择新建，将其创建为<code>扩展分区</code>，如下图所示。</p>
+<p><img src="/images/20190731VMware/16.png" alt="16.png"></p>
+<p>创建好后的效果如下图所示。</p>
+<p><img src="/images/20190731VMware/17.png" alt="17.png"></p>
+<p>再从上图的未分配磁盘处右键选择新建，将其创建为<code>逻辑分区</code>，文件系统选为<code>linux-swap</code>，如下图所示。</p>
+<p><img src="/images/20190731VMware/18.png" alt="18.png"></p>
+<p>创建好后的效果如下图所示。</p>
+<p><img src="/images/20190731VMware/19.png" alt="19.png"></p>
+<p>接下来，按下对勾，完成扩容操作。</p>
+<p><img src="/images/20190731VMware/20.png" alt="20.png"></p>
+<p>6.扩容完成后的效果如下图所示，在下图中，点击圈出来的底部区域，可返回桌面，选择退出。</p>
+<p><img src="/images/20190731VMware/21.png" alt="21.png"><br>
+<img src="/images/20190731VMware/22.png" alt="22.png"><br>
+<img src="/images/20190731VMware/23.png" alt="23.png"></p>
+<p>此时，可点击虚拟机 --&gt; 设置，将CD/DVD的启动挂载取消掉，如下图所示。</p>
+<p><img src="/images/20190731VMware/24.png" alt="24.png"></p>
+<p>在GParted退出时出现的页面直接点击回车即可。</p>
+<p><img src="/images/20190731VMware/25.png" alt="25.png"></p>
+<p>扩容完成后的效果如下图所示。</p>
+<p><img src="/images/20190731VMware/26.png" alt="26.png"></p>
+<h1>ubuntu16.04开机等待1分30秒(1min30s)解决方法</h1>
+<p>在扩容后，笔者开启Ubuntu启动出现了需要等待1min30s的情况，参照<a target="_blank" rel="noopener" href="https://jingyan.baidu.com/article/63acb44ac9c05b61fdc17e61.html">ubuntu16.04开机等待1分30秒(1min30s)解决方法</a>进行解决。</p>
+<blockquote>
+<p>参考链接<a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2015-08/121674.htm">VMware11下对虚拟机Ubuntu14.10系统所在分区sda1进行磁盘扩容</a></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/48591.html">https://colainlibrary.com/posts/48591.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Library/">Library</a><a class="post-meta__tags" href="/tags/VMware/">VMware</a></div><div class="post-share"><div class="social-share" data-image="/images/post-8.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/10600.html" title="Linux下共享内存的使用方法"><img class="cover" src="/images/post-7.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux下共享内存的使用方法</div></div><div class="info-2"><div class="info-item-1"> 开发环境：Ubuntu16.04 LTS。   前言 共享存储允许两个或多个进程共享一个给定的存储区，是进程间通信最快的一种方式。不要同时对共享存储空间进行写操作。通常，可以将信号量用于同步共享存储访问。 最简单的共享内存的使用流程如下：   ftok函数生成键值   shmget函数创建共享内存空间   shmat函数获取第一个可用共享内存空间的地址   shmdt函数进行分离（对共享存储段操作结束时的步骤，并不是从系统中删除共享内存和结构）   shmctl函数进行删除共享存储空间   上述的五个函数都是系统自带的函数，接下来对它们一一介绍。 系统函数介绍 ftok函数 1.功能：生成键值。每一个共享存储段都有一个对应的键值（key）相关联（消息队列、信号量也同样需要）。 2.所需头文件： 1#include&lt;sys/ipc.h&gt; 3.函数原型： 1key_t ftok(const char *path ,int...</div></div></div></a><a class="pagination-related" href="/posts/25595.html" title="ROS(kinetic)有用指令集"><img class="cover" src="/images/post-9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">ROS(kinetic)有用指令集</div></div><div class="info-2"><div class="info-item-1"> 本文中的环境为Ubuntu16.04LTS + ROS(kinetic).   前言 由于从ROS的官网上的教程并没有实时更新，上面混杂了一些旧版本的东西，看起来有些麻烦，而且有的介绍过于繁琐，因此本篇博客旨在介绍笔者使用版本的精简指令集。关于指令的详细介绍，还需从官网上查看相关内容。 指令介绍 ROS安装指令 在执行下面的指令前，请注意先将源换位内地源，推荐清华源。  2021.08.09由于一些原因，官方的安装教程有所改变： ROS 官方教程：http://wiki.ros.org/ROS/Tutorials ROS kinetic 版本安装：http://wiki.ros.org/kinetic/Installation/Ubuntu ROS rosdep 的问题 执行sudo rosdep init 出错，参考 解决方案1 解决方案2 上一步正确后，执行 rosdep...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/50695.html" title="VMware的联网、外设、复制粘贴问题"><img class="cover" src="/images/post-8.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2019-05-20</div><div class="info-item-2">VMware的联网、外设、复制粘贴问题</div></div><div class="info-2"><div class="info-item-1"> Edit this file in Safari for iPad. Unfortunately, it doesn’t support Chinese input.本文中的环境为Ubuntu16.04LTS + VMware10.   Connecting Internet Click “virtual machine” tag --&gt; settings --&gt; Ethernet --&gt; Choose the first choice(Bridge…) in “Network connection” click “Edit” tag --&gt; “Virtual Network adapter” --&gt; “VMnet0” --&gt; choose “Bridged(…)” and select your computer’s wireless card --&gt; OK 中文版： 1.在VMware的标签栏中，依次点击：虚拟机 --&gt; 设置 --&gt; 网络 --&gt;...</div></div></div></a><a class="pagination-related" href="/posts/35a2cc8.html" title="有用的知识汇总"><img class="cover" src="/images/post-7.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-10</div><div class="info-item-2">有用的知识汇总</div></div><div class="info-2"><div class="info-item-1">  ...</div></div></div></a><a class="pagination-related" href="/posts/421adcd5.html" title="Qt多线程以及调用Python"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-27</div><div class="info-item-2">Qt多线程以及调用Python</div></div><div class="info-2"><div class="info-item-1">记录用QT实现多线程以及调用Python的学习笔记。 1 前言 任务描述：使用QT和python联合编程，实现Python对传感器数据的读取并显示在QT界面上。 碎碎念：其实用PyQt是能避免掉多语言联合编程的，可这不是之前已经有很多工程都已经在QT上实现了嘛… 开发平台：Windows10 + Qt5.12.12 + Anaconda + Python3.9 2 环境配置 2.1 Qt5.12.12 安装 官网下载见[link]，点击windows版下载即可。 安装过程参考[link]，不需要将所有的组件都安装上，不然太大了。 2.2 Python 安装 如果只是用Python做一些简单的工作，并不涉及多环境的复杂配置，可以直接从官网[link]下载并直接安装到系统中，安装过程可参考[link]，最主要的是注意可以直接选中添加到系统变量中。 如果用Anaconda，可以从官方[link]下载，安装过程可以参考[link]也是要注意系统变量的设置。 2.3 环境设置 2.3.1 Python...</div></div></div></a><a class="pagination-related" href="/posts/55530d2c.html" title="Ubuntu下PyQt的使用"><img class="cover" src="/images/post-8.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-16</div><div class="info-item-2">Ubuntu下PyQt的使用</div></div><div class="info-2"><div class="info-item-1">记录PyQt的安装与使用。 1 前言 在用mujoco_py做仿真的时候，为了能直观地看到一些数据的曲线，因此需要使用PyQt5。 系统与软件版本： Ubuntu18.04 + Python3.8.13 + PyQt5-5.15 2 PyQt5的安装 PyQt5的官方链接：link 123456conda activate py38  # 在自己的conda环境中进行配置pip install PyQt5pip install pyqt5-tools# 安装图像化界面 designersudo apt-get install qttools5-dev-toolssudo apt-get install qttools5-dev  如果安装qttools5-dev时出现下图所示的错误，可以取消对Ubuntu的software更新的禁用后（但无需安装推荐的更新）再安装。  安装好之后两个软件的位置：   designer： /usr/lib/x86_64-linux-gnu/qt5/bin/designer pyuic5:...</div></div></div></a><a class="pagination-related" href="/posts/444d4f15.html" title="C++ template function"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-25</div><div class="info-item-2">C++ template function</div></div><div class="info-2"><div class="info-item-1">1 前言 在学习 C++ template function (模板函数)时，用之前的cmake编译无法通过，遂对其进行了一下学习。主要参考了《C++ Primer》这本书。 2 模板函数的基本使用 模板函数是为了解决C++编程中仅针对数据类型不同而提出的一种泛型编程方法，例如比较大小的函数： 1234567891011int compare(int v1, int v2) &#123;  if (v1 &lt; v2) return 1;  if (v1 &gt; v2) return -1;  return 0;&#125;int compare(double v1, double v2) &#123;  if (v1 &lt; v2) return 1;  if (v1 &gt; v2) return -1;  return 0;&#125; 对于上述两个函数，只有传入的参数类型不一致，函数主体内容完全一致，因此，可以用函数模板来实现。 123456template &lt;typename T&gt;int compare(const T &amp; v1, const...</div></div></div></a><a class="pagination-related" href="/posts/9a3d56a3.html" title="路由器无线桥接"><img class="cover" src="/images/post-5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-24</div><div class="info-item-2">路由器无线桥接</div></div><div class="info-2"><div class="info-item-1">1 前言 换了另外一个屋，网线不方便拉，台式机又没有无线网卡，于是用路由器桥接的方式解决台式机上网的问题。 2 无线桥接 我用的路由器是水星 MERCURY MW315R，其登录网址是：melogin.cn，如果还原出厂设置（长按reset5~6秒），登录网址也可以是192.168.1.1。登录进来，要首先设置密码之类的，自行设置即可，这个其实没啥用，因为这个路由器是不能直接上网的。做这些设置只是为了能正常进入后面的界面。 为了方便描述，将已经正常上网的路由器称为远程路由器(产生的wifi名为yuancheng)，用来桥接的路由器称为桥接路由器。 2.1...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">扩容方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">ubuntu16.04开机等待1分30秒(1min30s)解决方法</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

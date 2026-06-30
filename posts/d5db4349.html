@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>机器人阻抗控制 | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器人阻抗控制">
+<meta property="og:url" content="https://colainlibrary.com/posts/d5db4349.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-2.jpg">
+<meta property="article:published_time" content="2021-06-15T03:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-16T06:20:44.046Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="Library">
+<meta property="article:tag" content="机器人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "机器人阻抗控制",
+  "url": "https://colainlibrary.com/posts/d5db4349.html",
+  "image": "https://colainlibrary.com/images/post-2.jpg",
+  "datePublished": "2021-06-15T03:00:00.000Z",
+  "dateModified": "2025-04-16T06:20:44.046Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/d5db4349.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '机器人阻抗控制',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">机器人阻抗控制</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">机器人阻抗控制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-15T03:00:00.000Z" title="发表于 2021-06-15 11:00:00">2021-06-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-16T06:20:44.046Z" title="更新于 2025-04-16 14:20:44">2025-04-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/">机器人控制</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/%E4%B8%93%E6%A0%8F%E2%80%94%E2%80%94%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%8A%A8%E5%8A%9B%E5%AD%A6/">专栏——机器人动力学</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><!-- b站分享按钮下"嵌入" -->
+<!-- <iframe src="//player.bilibili.com/player.html?aid=248891855&bvid=BV17v411H7Dm&cid=362984310&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> -->
+<div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;"> <iframe style="position: absolute; width: 100%; height: 100%; left: 0; top: 0;" src="//player.bilibili.com/player.html?aid=248891855&bvid=BV17v411H7Dm&cid=362984310&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe> </div>
+<p>基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.</p>
+<span id="more"></span>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/d5db4349.html">https://colainlibrary.com/posts/d5db4349.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Library/">Library</a><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a></div><div class="post-share"><div class="social-share" data-image="/images/post-2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/1a88a2b6.html" title="SDH，一变就通"><img class="cover" src="/images/post-1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">SDH，一变就通</div></div><div class="info-2"><div class="info-item-1"> 1 前言 上篇已经介绍过 SDH 建立坐标系的过程，本篇来介绍下 SDH 参数表示坐标系间的齐次变换矩阵。 用 RxR_xRx​ 表示绕 xxx 轴的三维旋转矩阵，用 Rx\mathcal{R}_xRx​ 表示绕 xxx 轴旋转的齐次变换矩阵。 Rx(θ)=[1000cos⁡θ−sin⁡θ0sin⁡θcos⁡θ]∈R3×3R_{x}(\theta)=\begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; \cos\theta &amp; -\sin\theta \\ 0 &amp; \sin\theta &amp; \cos\theta \\ \end{bmatrix} \in \mathbb{R}^{3\times 3} Rx​(θ)=​100​0cosθsinθ​0−sinθcosθ​​∈R3×3 Ry(θ)=[cos⁡θ0sin⁡θ010−sin⁡θ0cos⁡θ]∈R3×3R_{y}(\theta)=\begin{bmatrix} \cos\theta &amp; 0 &amp; \sin\theta \\ 0 &amp; 1...</div></div></div></a><a class="pagination-related" href="/posts/dc5dd3f8.html" title="Motive 软件使用方法"><img class="cover" src="/images/post-3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Motive 软件使用方法</div></div><div class="info-2"><div class="info-item-1"> 简要记录Motive的使用方法。  1 前言 最近在用动捕系统做实验，简单记录下motive的相关使用方法，防止记忆丢失。 2 所用相机 所用相机：OptiTrack V120:Trio, 官网链接 相机的硬件连接方式：链接  Tip1: 都是标准化的接口，直接照图插上就能用。不要使用250V的圆孔电源插头。 Tip2: 该款三目相机无需进行标定，但是坐标原点的位置在第一个镜头和第二个镜头之间偏后约30cm的位置。 Tip3: 相关的参考文档都能从官网中找到。  3 软件 软件为 motive2.3.0. 下载链接 配套的SDK，NaNet SDK4.0.0. 下载链接  我的目的是测试通软硬件，最后在Linux上读数据；官网上说 Camera SDK 2.3.0 与 Motive2.3.0 相匹配，尚未测试。    Tip1: 软件中地面的一小格为20cm，一大格为1m。 Tip2: 将 View -&gt; Data Streaming Pane 中的所有开关都打开。 Tip3: 建造刚体： View -&gt; Builder Pane,...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/1a88a2b6.html" title="SDH，一变就通"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-20</div><div class="info-item-2">SDH，一变就通</div></div><div class="info-2"><div class="info-item-1"> 1 前言 上篇已经介绍过 SDH 建立坐标系的过程，本篇来介绍下 SDH 参数表示坐标系间的齐次变换矩阵。 用 RxR_xRx​ 表示绕 xxx 轴的三维旋转矩阵，用 Rx\mathcal{R}_xRx​ 表示绕 xxx 轴旋转的齐次变换矩阵。 Rx(θ)=[1000cos⁡θ−sin⁡θ0sin⁡θcos⁡θ]∈R3×3R_{x}(\theta)=\begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; \cos\theta &amp; -\sin\theta \\ 0 &amp; \sin\theta &amp; \cos\theta \\ \end{bmatrix} \in \mathbb{R}^{3\times 3} Rx​(θ)=​100​0cosθsinθ​0−sinθcosθ​​∈R3×3 Ry(θ)=[cos⁡θ0sin⁡θ010−sin⁡θ0cos⁡θ]∈R3×3R_{y}(\theta)=\begin{bmatrix} \cos\theta &amp; 0 &amp; \sin\theta \\ 0 &amp; 1...</div></div></div></a><a class="pagination-related" href="/posts/22acf33e.html" title="SDH，一学就会"><img class="cover" src="/images/post-0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-19</div><div class="info-item-2">SDH，一学就会</div></div><div class="info-2"><div class="info-item-1">介绍标准 DH(SDH) 机器人建系方法。  1 前言 在做机器人控制的时候，为了能够方便地对机器人进行力矩控制，自己搭建了一套控制器。在搭建完基本的硬件平台后，需要对机器人进行建模。首先是机器人坐标系的建立。以UR10为例。 有两种可以在 MATLAB 中使用的工具箱：  PerterCoke的Robotics ToolBox ARTE: A ROBOTICS TOOLBOX FOR EDUCATION  第一种工具箱对应的有一本书 《Robotics, Vision and Control》[1]，这个用的比较多，不再赘述。 第二种工具箱下载好后将路径添加到 MATLAB 中，然后在它的文件夹下运行一下命令即可。 12345init_librobot = load_robot(&#x27;UR&#x27;,&#x27;UR10&#x27;);% 关节坐标轴是否可见% robot.graphical.draw_axes = 1 drawrobot3d(robot,[0 0 0 0 0 0]) 2 SDH建立坐标系的过程  上图所示的转动关节 DH...</div></div></div></a><a class="pagination-related" href="/posts/e5d7cd24.html" title="Ethercat 主站搭建"><img class="cover" src="/images/post-7.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-17</div><div class="info-item-2">Ethercat 主站搭建</div></div><div class="info-2"><div class="info-item-1">介绍 Ubuntu16.04 下 Igh Ethercat 主站搭建的过程。  1 前言 从 https://github.com/ribalda/ethercat 下载 ethercat 安装包。 2 安装流程 用 lspci -vvv 查看网卡的型号以及驱动类型，也可以系统桌面右上角的网络连接中查看网卡的型号，从网上搜驱动类型。  Ethernet controller 可以看到网卡型号为 82576，Kernel modules 可以看到网卡驱动类型为 igb。 用 ifconfig 查看所有网卡的MAC地址，也可以从系统桌面右上角的网络连接中通过 Edit Connections --&gt; Edit --&gt; Ethernet --&gt; Device 中查看。  12345678910111213141516sudo apt-get install autoconf autogen libtool   # 安装依赖项cd 安装包路径./bootstrap./configure --prefix=/opt/etherlab --enable-generic...</div></div></div></a><a class="pagination-related" href="/posts/e2bb99c2.html" title="KDL的安装"><img class="cover" src="/images/post-4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-06</div><div class="info-item-2">KDL的安装</div></div><div class="info-2"><div class="info-item-1"> 1 前言 为了快速搭建一个机器人控制器，方便后期进行机器人控制算法开发，需要用到 Orocos 的 KDL 库。本文将介绍一下 KDL 相关的基础知识。 2 Orocos 2.1 综述 “Orocos”代表“Open Robot Control Software”，即开源机器人控制软件。 Orocos 为软件开发人员提供了开源的机器人软件框架，提供了很多功能，方便开发人员快速的开发机器人软件模块。Orocos 由 Kinematics Dynamics Library(KDL)，Bayesian Filtering Library 及 Orocos Toolchain 组成。 官方网站：https://orocos.org/ 2.2 KDL KDL（Kinematics and Dynamics）：机器人运动学与动力学组件，为运动学提供了实时的动力学约束计算，这个组件非常有用，有了这个组件，很多机器人开发者可以快速地开发机器人算法。 这是本系列主要研究内容。 2.3 BFL BFL（Bayesian Filtering...</div></div></div></a><a class="pagination-related" href="/posts/86188ed1.html" title="机场行李筐智能分拣"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-31</div><div class="info-item-2">机场行李筐智能分拣</div></div><div class="info-2"><div class="info-item-1">      机场行李筐智能分拣系统实现结果:  图像识别算法可以准确识别传送带上的行李与行李筐，识别率达 99% 以上； 受限于上位机与下位机的通信方式、机器人末端吸盘及配件，机器人抓取成功率可达 97% 以上； 受限于盒体模具并不完全一致，码垛成功率可达 97% 以上; 码跺区有人进入时,具有安全保护功能; 受限于图像处理的速度,机器人运动时的速度,一个筐码跺完成后可能会出现不能立即抓取到达机器人下方的筐.  为方便复现,记录本项目中用到的环境安装方法:机场行李筐分拣项目环境安装汇总 </div></div></div></a><a class="pagination-related" href="/posts/ce622490.html" title="机场行李筐分拣项目环境安装汇总"><img class="cover" src="/images/post-0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-13</div><div class="info-item-2">机场行李筐分拣项目环境安装汇总</div></div><div class="info-2"><div class="info-item-1">介绍机场行李筐智能分拣项目的安装环境～  1 前言 经过与几位师弟、@yym的共同探索，总结在机场行李框分拣项目中需要用到的环境如下： 硬件设施： i7-8700 + RTX2080 Ti + 机器人 + Basler + realsense。 软件环境：  Ubuntu16.04（内核4.15） 显卡驱动； Cuda； CUDNN； Opencv+Opencv_contrib； basler相机驱动； realsense相机驱动； darknet yolov4； pytorch yolov3 PCL； VTK-8.2.0； Ubuntu终端科学上网。  2 环境安装 2.1 Ubuntu16.04安装 Ubuntu16.04系统安装见Windows下采用U盘安装Ubuntu双系统详细过程 。  注意：建议安装内核版本为4.15，即小版本为Ubuntu16.04.4的系统。  2.2...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

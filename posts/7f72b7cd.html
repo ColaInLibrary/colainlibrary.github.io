@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ROS仿真揭秘——七自由度机器人(一) | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="先让七自由度机器人跑起来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS仿真揭秘——七自由度机器人(一)">
+<meta property="og:url" content="https://colainlibrary.com/posts/7f72b7cd.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="先让七自由度机器人跑起来">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-2.jpg">
+<meta property="article:published_time" content="2020-02-23T03:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-18T05:23:16.080Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="Library">
+<meta property="article:tag" content="机器人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-2.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ROS仿真揭秘——七自由度机器人(一)",
+  "url": "https://colainlibrary.com/posts/7f72b7cd.html",
+  "image": "https://colainlibrary.com/images/post-2.jpg",
+  "datePublished": "2020-02-23T03:00:00.000Z",
+  "dateModified": "2022-08-18T05:23:16.080Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/7f72b7cd.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ROS仿真揭秘——七自由度机器人(一)',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-2.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">ROS仿真揭秘——七自由度机器人(一)</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ROS仿真揭秘——七自由度机器人(一)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-02-23T03:00:00.000Z" title="发表于 2020-02-23 11:00:00">2020-02-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-18T05:23:16.080Z" title="更新于 2022-08-18 13:23:16">2022-08-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/">机器人控制</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/%E4%B8%93%E6%A0%8F%E2%80%94%E2%80%94ROS%E4%B8%8B%E4%B8%83%E8%87%AA%E7%94%B1%E5%BA%A6%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%BB%BF%E7%9C%9F%E7%9A%84%E5%AE%9E%E7%8E%B0/">专栏——ROS下七自由度机器人仿真的实现</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><img src=" /images/20200223/00.gif" width=30% />
+从本篇开始，介绍一个ROS仿真平台下的七自由度机器人实例。这一篇，我们先让它动起来！
+<span id="more"></span>
+<h1>0 前言</h1>
+<p>由于工作需要来做一下实物仿真，只用MATLAB感觉有些不够，在机器人领域又有专门的ROS来做仿真，因此，还是系统的来学习一下ROS做仿真的流程吧。掌握之后，可以通过仿真来快速验证自己的算法，也还是不错的。本专栏以《Mastering ROS for Robotics Programming–Second Edition》中的七自由度机器人为例，旨在让初学者可以快速掌握ROS仿真的搭建过程。系统环境：Ubuntu16.04 + ROS kinetic + gazebo7。</p>
+<h1>1 初始环境配置</h1>
+<p>关于ROS环境的安装，请参考<a href="https://colainlibrary.com/archives/25595.html">ROS(kinetic)有用指令集</a>。如果在添加key时出错，请从官网查找适合软件源、适合ros版本的key。建议安装desktop-full的版本，这样会把gazebo等相关软件安装好。</p>
+<p>装好ros后，需要创建一个工作空间。简单来说，每一个仿真模型我们都可以将其放在一个文件夹里，而工作空间就包含了这些文件夹，然后经过统一编译，便可以执行形式一致的命令来控制模型。下面给出常用的一些基本命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /opt/ros/kinetic/setup.bash		<span class="comment"># sourced your environment</span></span><br><span class="line"><span class="built_in">mkdir</span> -p ~/catkin_ws/src              <span class="comment"># 创建catkin_ws工作空间，建立一个src文件夹来存放模型源码</span></span><br><span class="line"><span class="built_in">cd</span> ~/catkin_ws/                       <span class="comment"># 打开工作空间</span></span><br><span class="line">catkin_make                           <span class="comment"># 编译</span></span><br><span class="line"><span class="built_in">source</span> devel/setup.bash</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$ROS_PACKAGE_PATH</span> 					      <span class="comment"># 确认环境变量包含了目录</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>说明：<code>catkin_make</code>是编译工作空间的命令，当每次新添加仿真模型后，都需要执行这条命令；<code>source devel/setup.bash</code>这条指令最好在每次打开工作空间后就执行一次，不然在新开的终端中执行<code>roslaunch</code>命令时往往会提示<code>[seven_dof_arm_gazebo_control.launch] is neither a launch file in package [seven_dof_arm_gazebo] nor is [seven_dof_arm_gazebo] a launch file name</code>之类的错误。</p>
+</blockquote>
+<h1>2 添加七自由度机器人模型</h1>
+<p>在第一节创建了工作空间后，向其中添加仿真模型有两种方法，一种是自行创建新程序包，即新的仿真模型；另一种是对于别人已经写好的仿真模型，直接复制或下载。</p>
+<h1>2.1 自行创建新模型</h1>
+<p>使用下面的命令可以创建新的程序包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/catkin_ws/src</span><br><span class="line">catkin_create_pkg beginner_tutorials std_msgs rospy roscpp</span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line">catkin_make</span><br></pre></td></tr></table></figure>
+<p>上述命令的第2条意思是使用<code>catkin_create_pkg</code>命令来创建一个名为<code>beginner_tutorials</code>的新程序包，这个程序包依赖于<code>std_msgs</code>、<code>roscpp</code>和<code>rospy</code>。如果有其他的依赖项，在后面继续添加即可。</p>
+<p>这里需要注意一下，Gazebo是安装ROS完整版时一起安装的一个仿真环境。为了正常使用，我们还需要安装一些其他的依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装gazebo需要的一些依赖包</span></span><br><span class="line"><span class="built_in">sudo</span> apt-get install ros-kinetic-gazebo-rospkgs ros-kinetic-gazebo-msgs ros-kinetic-gazebo-plugins ros-kinetic-gazeboros-control</span><br></pre></td></tr></table></figure>
+<h1>2.2 下载七自由度机器人仿真模型</h1>
+<p>对于我们所要用的例子，该书的作者已经帮我编写好了程序，我们可以将其直接下载拿来应用。在以后，我们会逐一介绍模型搭建的原理和实现控制模型的方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开工作空间下的src文件夹</span></span><br><span class="line"><span class="built_in">cd</span> ~/catkin_ws/src</span><br><span class="line"><span class="comment"># 下载机器人模型</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/jocacace/mastering_ros_robot_description_pkg.git</span><br><span class="line"><span class="comment"># 下载机器人仿真及控制器源码</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/jocacace/seven_dof_arm_gazebo.git</span><br><span class="line"><span class="comment"># 返回上一层目录</span></span><br><span class="line"><span class="built_in">cd</span> ..</span><br><span class="line"><span class="comment"># 编译</span></span><br><span class="line">catkin_make</span><br></pre></td></tr></table></figure>
+<h1>3 先让机器人动起来</h1>
+<h2 id="3-1-Rviz中显示七自由度机器人">3.1 Rviz中显示七自由度机器人</h2>
+<p>我们可以先用Rviz对七自由度机器人做一个显示。关于Rviz是个什么东东，本篇就不讲了，目前只需知道它可以做机器人的显示即可。打开一个终端，执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/catkin_ws</span><br><span class="line"><span class="built_in">source</span> devel/setup.bash</span><br><span class="line">roslaunch mastering_ros_robot_description_pkg view_arm.launch </span><br></pre></td></tr></table></figure>
+<p>打开后我们会看到Rviz中的一个七自由度机器人模型，并且有一个简单的GUI界面可以让我们手动操作机器人，如下图所示。<br>
+<img src="/images/20200223/03.gif" alt="03"></p>
+<blockquote>
+<p>说明：本节对应的是2.2节中下载下来的<em>mastering_ros_robot_description_pkg</em>。该Package包含了一些机器人的显示模型，但不包含控制器。<br>
+注意：如果下载下来的程序在运行过程中提示有错，一般是在<em>mastering_ros_robot_description_pkg/urdf/seven_dof_arm.xacro</em>文件中屏蔽掉了<strong>grasping_frame</strong>的<strong>geometry</strong>属性，将该标签下的属性解除屏蔽即可。新手可参照其他<em>link</em>的<strong>geometry</strong>属性。其实，不解决这个错误也没关系，它只是七自由度机器人模型最上方的那个小白方块的显示，暂时不影响大局。</p>
+</blockquote>
+<h2 id="3-2-Gazebo中对机器人做仿真">3.2 Gazebo中对机器人做仿真</h2>
+<p>Rviz一般是用来做显示的工具，Gazebo则是物体仿真的一个环境。</p>
+<ol>
+<li>打开一个终端，执行：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/catkin_ws</span><br><span class="line"><span class="built_in">source</span> devel/setup.bash</span><br><span class="line">roslaunch seven_dof_arm_gazebo seven_dof_arm_gazebo_control.launch</span><br></pre></td></tr></table></figure>
+<p>打开后我们会看到gazebo中的一个七自由度机器人模型，如下图所示。<br>
+<img src="/images/20200223/01.png" alt="01"></p>
+<ol start="2">
+<li>打开第二个终端，执行：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/catkin_ws</span><br><span class="line"><span class="built_in">source</span> devel/setup.bash</span><br><span class="line">rtopic pub /seven_dof_arm/joint4_position_controller/command std_msgs/Float64 1.0</span><br></pre></td></tr></table></figure>
+<p>执行时，注意观察gazebo中的运动效果，可以看到机器人第4关节进行了如下效果的运动。<br>
+<img src="/images/20200223/02.png" alt="02"></p>
+<blockquote>
+<p>说明：本节对应的是2.2节中下载下来的<em>seven_dof_arm_gazebo</em>安装包。该Package包含了一些七自由度机器人的控制器。</p>
+</blockquote>
+<p>经过上述的操作，应该已经让机器人成功运动起来了。什么？动完之后觉得索然无味？废话！都不打赏怎么能有意思？(皮一下，逃～)不知其所以然，怎么能体会到其中的奥妙！还不赶紧看后面的博客！</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/7f72b7cd.html">https://colainlibrary.com/posts/7f72b7cd.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Library/">Library</a><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a></div><div class="post-share"><div class="social-share" data-image="/images/post-2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/cf0a378a.html" title="ros_control介绍"><img class="cover" src="/images/post-1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ros_control介绍</div></div><div class="info-2"><div class="info-item-1"> 仿真模型究竟是怎么样控制的呢？这一节我们来谈一谈用ros_control来控制gazebo中的仿真模型吧。   本篇内容主要转自古月居ROS探索总结（三十一）——ros_control。  1.ros_control概述 ROS中提供了丰富的机器人应用：SLAM、导航、MoveIt……但是你可能一直有一个疑问，这些功能包到底应该怎么样用到我们的机器人上，也就是说在应用和实际机器人或者机器人仿真器之间，缺少一个连接两者的东西。这个可以形象地用上图中的！！！部分描述。 ros_control就是ROS为用户提供的应用与机器人之间的中间件，包含一系列控制器接口、传动装置接口、硬件接口、控制器工具箱等等，可以帮助机器人应用快速落地，提高开发效率。我们将上图填充完整后，是如下效果：  从上图中可以看出，ros确实是一个框架。ros_control可以提供多种类型的控制器(底盘、机械臂等)，但是这些控制器的接口各不相同，为了提高代码的复用率，ros_control还提供一个硬件的抽象层(Robot hardware...</div></div></div></a><a class="pagination-related" href="/posts/d0432caf.html" title="ROS仿真揭秘——七自由度机器人(二)"><img class="cover" src="/images/post-3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">ROS仿真揭秘——七自由度机器人(二)</div></div><div class="info-2"><div class="info-item-1"> 这一篇我们来了解一下组成七自由度机器人的文件系统，并对launch文件做一个解读。  0 前言 如果你对ROS的基础知识有所欠缺，可以参考：  ROS文件系统概述 ROS节点之间的基本通讯方式  如果你不清楚七自由度机器人机器人仿真的运行方式，可以参考：  ROS仿真揭秘——七自由度机器人(一)  1 组成模型的文件 关于工作空间建立好后有的文件，因为都是统一的格式，这里不予过多介绍。我们关注的是，每一个仿真模型的文件组成。依据上一篇的介绍，我们在下载模型时从github上下载了两个文件，一个是机器人3D模型，另一个是机器人控制器。 1.1 3D模型的文件组成 3D模型mastering_ros_robot_description_pkg的组成如下图所示。  1.2 控制器的文件组成 七自由度机器人控制器seven_dof_arm_gazebo的组成如下图所示。  2...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/d5db4349.html" title="机器人阻抗控制"><img class="cover" src="/images/post-2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="info-item-2">机器人阻抗控制</div></div><div class="info-2"><div class="info-item-1">      基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.  </div></div></div></a><a class="pagination-related" href="/posts/1a88a2b6.html" title="SDH，一变就通"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-20</div><div class="info-item-2">SDH，一变就通</div></div><div class="info-2"><div class="info-item-1"> 1 前言 上篇已经介绍过 SDH 建立坐标系的过程，本篇来介绍下 SDH 参数表示坐标系间的齐次变换矩阵。 用 RxR_xRx​ 表示绕 xxx 轴的三维旋转矩阵，用 Rx\mathcal{R}_xRx​ 表示绕 xxx 轴旋转的齐次变换矩阵。 Rx(θ)=[1000cos⁡θ−sin⁡θ0sin⁡θcos⁡θ]∈R3×3R_{x}(\theta)=\begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; \cos\theta &amp; -\sin\theta \\ 0 &amp; \sin\theta &amp; \cos\theta \\ \end{bmatrix} \in \mathbb{R}^{3\times 3} Rx​(θ)=​100​0cosθsinθ​0−sinθcosθ​​∈R3×3 Ry(θ)=[cos⁡θ0sin⁡θ010−sin⁡θ0cos⁡θ]∈R3×3R_{y}(\theta)=\begin{bmatrix} \cos\theta &amp; 0 &amp; \sin\theta \\ 0 &amp; 1...</div></div></div></a><a class="pagination-related" href="/posts/22acf33e.html" title="SDH，一学就会"><img class="cover" src="/images/post-0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-19</div><div class="info-item-2">SDH，一学就会</div></div><div class="info-2"><div class="info-item-1">介绍标准 DH(SDH) 机器人建系方法。  1 前言 在做机器人控制的时候，为了能够方便地对机器人进行力矩控制，自己搭建了一套控制器。在搭建完基本的硬件平台后，需要对机器人进行建模。首先是机器人坐标系的建立。以UR10为例。 有两种可以在 MATLAB 中使用的工具箱：  PerterCoke的Robotics ToolBox ARTE: A ROBOTICS TOOLBOX FOR EDUCATION  第一种工具箱对应的有一本书 《Robotics, Vision and Control》[1]，这个用的比较多，不再赘述。 第二种工具箱下载好后将路径添加到 MATLAB 中，然后在它的文件夹下运行一下命令即可。 12345init_librobot = load_robot(&#x27;UR&#x27;,&#x27;UR10&#x27;);% 关节坐标轴是否可见% robot.graphical.draw_axes = 1 drawrobot3d(robot,[0 0 0 0 0 0]) 2 SDH建立坐标系的过程  上图所示的转动关节 DH...</div></div></div></a><a class="pagination-related" href="/posts/e5d7cd24.html" title="Ethercat 主站搭建"><img class="cover" src="/images/post-7.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-17</div><div class="info-item-2">Ethercat 主站搭建</div></div><div class="info-2"><div class="info-item-1">介绍 Ubuntu16.04 下 Igh Ethercat 主站搭建的过程。  1 前言 从 https://github.com/ribalda/ethercat 下载 ethercat 安装包。 2 安装流程 用 lspci -vvv 查看网卡的型号以及驱动类型，也可以系统桌面右上角的网络连接中查看网卡的型号，从网上搜驱动类型。  Ethernet controller 可以看到网卡型号为 82576，Kernel modules 可以看到网卡驱动类型为 igb。 用 ifconfig 查看所有网卡的MAC地址，也可以从系统桌面右上角的网络连接中通过 Edit Connections --&gt; Edit --&gt; Ethernet --&gt; Device 中查看。  12345678910111213141516sudo apt-get install autoconf autogen libtool   # 安装依赖项cd 安装包路径./bootstrap./configure --prefix=/opt/etherlab --enable-generic...</div></div></div></a><a class="pagination-related" href="/posts/e2bb99c2.html" title="KDL的安装"><img class="cover" src="/images/post-4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-06</div><div class="info-item-2">KDL的安装</div></div><div class="info-2"><div class="info-item-1"> 1 前言 为了快速搭建一个机器人控制器，方便后期进行机器人控制算法开发，需要用到 Orocos 的 KDL 库。本文将介绍一下 KDL 相关的基础知识。 2 Orocos 2.1 综述 “Orocos”代表“Open Robot Control Software”，即开源机器人控制软件。 Orocos 为软件开发人员提供了开源的机器人软件框架，提供了很多功能，方便开发人员快速的开发机器人软件模块。Orocos 由 Kinematics Dynamics Library(KDL)，Bayesian Filtering Library 及 Orocos Toolchain 组成。 官方网站：https://orocos.org/ 2.2 KDL KDL（Kinematics and Dynamics）：机器人运动学与动力学组件，为运动学提供了实时的动力学约束计算，这个组件非常有用，有了这个组件，很多机器人开发者可以快速地开发机器人算法。 这是本系列主要研究内容。 2.3 BFL BFL（Bayesian Filtering...</div></div></div></a><a class="pagination-related" href="/posts/86188ed1.html" title="机场行李筐智能分拣"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-31</div><div class="info-item-2">机场行李筐智能分拣</div></div><div class="info-2"><div class="info-item-1">      机场行李筐智能分拣系统实现结果:  图像识别算法可以准确识别传送带上的行李与行李筐，识别率达 99% 以上； 受限于上位机与下位机的通信方式、机器人末端吸盘及配件，机器人抓取成功率可达 97% 以上； 受限于盒体模具并不完全一致，码垛成功率可达 97% 以上; 码跺区有人进入时,具有安全保护功能; 受限于图像处理的速度,机器人运动时的速度,一个筐码跺完成后可能会出现不能立即抓取到达机器人下方的筐.  为方便复现,记录本项目中用到的环境安装方法:机场行李筐分拣项目环境安装汇总 </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">0 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">1 初始环境配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">2 添加七自由度机器人模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">2.1 自行创建新模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">2.2 下载七自由度机器人仿真模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">6.</span> <span class="toc-text">3 先让机器人动起来</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-Rviz%E4%B8%AD%E6%98%BE%E7%A4%BA%E4%B8%83%E8%87%AA%E7%94%B1%E5%BA%A6%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="toc-number">6.1.</span> <span class="toc-text">3.1 Rviz中显示七自由度机器人</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-Gazebo%E4%B8%AD%E5%AF%B9%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%81%9A%E4%BB%BF%E7%9C%9F"><span class="toc-number">6.2.</span> <span class="toc-text">3.2 Gazebo中对机器人做仿真</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

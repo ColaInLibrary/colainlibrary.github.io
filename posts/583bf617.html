@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>FCL库的安装 | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录FCL库的安装过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FCL库的安装">
+<meta property="og:url" content="https://colainlibrary.com/posts/583bf617.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="记录FCL库的安装过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-5.jpg">
+<meta property="article:published_time" content="2025-04-16T08:30:00.000Z">
+<meta property="article:modified_time" content="2025-04-21T06:50:11.251Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="机器人">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-5.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "FCL库的安装",
+  "url": "https://colainlibrary.com/posts/583bf617.html",
+  "image": "https://colainlibrary.com/images/post-5.jpg",
+  "datePublished": "2025-04-16T08:30:00.000Z",
+  "dateModified": "2025-04-21T06:50:11.251Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/583bf617.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'FCL库的安装',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-5.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">FCL库的安装</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">FCL库的安装</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-16T08:30:00.000Z" title="发表于 2025-04-16 16:30:00">2025-04-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-21T06:50:11.251Z" title="更新于 2025-04-21 14:50:11">2025-04-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E7%A7%91%E7%94%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F/">工科生的基本功</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B7%A5%E7%A7%91%E7%94%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8A%9F/%E8%BD%AF%E4%BB%B6%E6%8A%80%E6%9C%AF/">软件技术</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>记录FCL库的安装过程。</p>
+<h1>1 安装过程与坑</h1>
+<h2 id="1-1-安装">1.1 安装</h2>
+<p>依赖：libccd、OctoMap<br>
+libccd对应的仓库链接：</p>
+<div class="tag link"><a class="link-card" title="libccd" target="_blank" rel="noopener" href="https://github.com/danfis/libccd"><div class="left"><img src="/images/github.png"/></div><div class="right"><p class="text">libccd</p><p class="url">https://github.com/danfis/libccd</p></div></a></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> libccd/</span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..  <span class="comment"># 添加这个选项生成动态库，因为FCL需要链接动态库而不是静态库</span></span><br><span class="line">make -j</span><br><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
+<p>OctoMap对应的仓库链接：</p>
+<div class="tag link"><a class="link-card" title="OctoMap" target="_blank" rel="noopener" href="https://github.com/OctoMap/octomap"><div class="left"><img src="/images/github.png"/></div><div class="right"><p class="text">OctoMap</p><p class="url">https://github.com/OctoMap/octomap</p></div></a></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> octomap-1.10.0</span><br><span class="line"><span class="built_in">cd</span> build/</span><br><span class="line">cmake ..</span><br><span class="line">make -j</span><br><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
+<p>FCL对应的仓库链接：</p>
+<div class="tag link"><a class="link-card" title="FCL" target="_blank" rel="noopener" href="https://github.com/flexible-collision-library/fcl"><div class="left"><img src="/images/github.png"/></div><div class="right"><p class="text">FCL</p><p class="url">https://github.com/flexible-collision-library/fcl</p></div></a></div>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> fcl</span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
+<p>FCL库的安装路径默认位于：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-- Install configuration: <span class="string">&quot;Release&quot;</span></span><br><span class="line">-- Installing: /usr/local/lib/cmake/fcl/fcl-config.cmake</span><br><span class="line">-- Installing: /usr/local/lib/cmake/fcl/fcl-config-version.cmake</span><br><span class="line">-- Installing: /usr/local/lib/libfcl.so.0.7.0</span><br><span class="line">-- Installing: /usr/local/lib/libfcl.so.0.7</span><br><span class="line">-- Set runtime path of <span class="string">&quot;/usr/local/lib/libfcl.so.0.7.0&quot;</span> to <span class="string">&quot;/usr/local/lib:/opt/ros/noetic/lib&quot;</span></span><br><span class="line">-- Installing: /usr/local/lib/libfcl.so</span><br><span class="line">-- Installing: /usr/local/lib/cmake/fcl/fcl-targets.cmake</span><br><span class="line">-- Installing: /usr/local/lib/cmake/fcl/fcl-targets-release.cmake</span><br><span class="line">-- Up-to-date: /usr/local/include</span><br><span class="line">-- Installing: /usr/local/include/fcl</span><br><span class="line">-- Installing: /usr/local/include/fcl/fcl.h</span><br><span class="line">-- Installing: /usr/local/include/fcl/export.h</span><br><span class="line">-- Installing: /usr/local/include/fcl/config.h</span><br><span class="line">-- Up-to-date: /usr/local/include</span><br><span class="line">-- Up-to-date: /usr/local/include/fcl</span><br></pre></td></tr></table></figure>
+<h2 id="1-2-遇到的坑">1.2 遇到的坑</h2>
+<h3 id="1-2-1-gtest问题">1.2.1 gtest问题</h3>
+<p>FCL库中test库编译时会依赖gtest，但是它又是自动从网上下载的，有可能因为墙的原因下载失败，所以需要手动下载gtest，并手动编译。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:google/googletest.git</span><br><span class="line"><span class="built_in">cd</span> googletest</span><br><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
+<p>找到<code>fcl/test/CMakeLists.txt</code>，将从网上下载的gtest内容替换为手动编译的gtest内容。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 原有内容注释</span></span><br><span class="line"><span class="comment"># Build gtest</span></span><br><span class="line"><span class="comment"># include(FetchContent)</span></span><br><span class="line"><span class="comment"># FetchContent_Declare(</span></span><br><span class="line"><span class="comment">#   googletest</span></span><br><span class="line"><span class="comment">#   URL https://github.com/google/googletest/archive/refs/tags/release-1.12.0.zip</span></span><br><span class="line"><span class="comment"># )</span></span><br><span class="line"><span class="comment"># # For Windows: Prevent overriding the parent project&#x27;s compiler/linker settings</span></span><br><span class="line"><span class="comment"># set(gtest_force_shared_crt ON CACHE BOOL &quot;&quot; FORCE)</span></span><br><span class="line"><span class="comment"># FetchContent_MakeAvailable(googletest)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为新内容</span></span><br><span class="line"><span class="keyword">find_package</span>(GTest REQUIRED)</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-2-libccd问题">1.2.2 libccd问题</h3>
+<p>FCL依赖libccd的动态库，libccd中readme.md的第一种编译方式生成的是静态库，编译FCL的时候会报错。<br>
+<img src="/images/20250416/error.png" alt="layout"></p>
+<h1>2 使用示例</h1>
+<h2 id="2-1-创建一个简单的碰撞检测程序">2.1 创建一个简单的碰撞检测程序</h2>
+<h2 id="2-2-STL-格式">2.2 STL 格式</h2>
+<p>二进制格式的STL文件是一种用于存储三维模型数据的紧凑文件格式，通过三角形面片（三角网格）近似表示物体表面。以下是其核心特点和结构解析：</p>
+<ol>
+<li>
+<p><strong>文件结构</strong><br>
+• 文件头：前80字节通常存储无关紧要的元数据（如文件名或注释），可忽略或用于标识。<br>
+• 三角形数量：紧接着的4字节（84字节处）存储一个无符号整数，表示模型中三角形面片的数量。<br>
+• 三角形数据：每个三角形占用50字节，包含：<br>
+(1) 法向量（12字节）：3个浮点数（x, y, z），表示三角形面的朝向。<br>
+(2) 顶点坐标（36字节）：3组浮点数（每组12字节），定义三角形的三个顶点。<br>
+(3) 属性字节（2字节）：通常为0，保留未使用。</p>
+</li>
+<li>
+<p><strong>特点</strong><br>
+• 紧凑性：二进制格式比ASCII格式更节省空间（约为1/5大小），适合存储复杂模型。<br>
+• 高效读取：二进制数据可直接解析，无需文本转换，加载速度更快。<br>
+• 不可读性：无法直接用文本编辑器查看或编辑，需专用软件解析。<br>
+• 局限性：仅存储几何信息（顶点和法线），不支持颜色、材质或拓扑关系。</p>
+</li>
+<li>
+<p><strong>文件大小计算</strong><br>
+文件总大小公式为：</p>
+</li>
+</ol>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>文件大小</mtext><mo>=</mo><mn>84</mn><mo>+</mo><mn>50</mn><mo>×</mo><mtext>三角形数量</mtext></mrow><annotation encoding="application/x-tex">\text{文件大小} = 84 + 50 \times \text{三角形数量} 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord cjk_fallback">文件大小</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">84</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">50</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord cjk_fallback">三角形数量</span></span></span></span></span></span></p>
+<p>例如，包含1000个三角形的文件大小为50,084字节。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/583bf617.html">https://colainlibrary.com/posts/583bf617.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a><a class="post-meta__tags" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></div><div class="post-share"><div class="social-share" data-image="/images/post-5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/fe16da94.html" title="rsl-rl代码解释"><img class="cover" src="/images/post-4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">rsl-rl代码解释</div></div><div class="info-2"><div class="info-item-1">记录rsl-rl库的学习笔记。 1 rsl-rl库结构框架  rsl-rl  init.py algorithms  init.py PPO.py   # PPO算法的实现   env  init.py vec_envv.py   # 实现并行处理多个环境的向量化环境   modules  init.py actor_critic.py            # 定义 Actor-Critic 网络结构 actor_critic_recurrent.py  # 定义含循环层的 Actor-Critic 网络结构 normalizer.py              # 数据正规化工具，有助于训练过程的稳定性   runners  init.py on_policy_runner.py        # 实现用于执行 on-policy 算法训练循环的运行器   storage  init.py rollout_storage.py         # 存储和管理策略 rollout 数据的工具   utils  init.py utils.py                 ...</div></div></div></a><a class="pagination-related" href="/posts/6072d733.html" title="Mathematics for Machine Learning：【06】概率论基础知识"><img class="cover" src="/images/post-6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Mathematics for Machine Learning：【06】概率论基础知识</div></div><div class="info-2"><div class="info-item-1">记录FCL库的安装过程。 1 期望 1.1 离散随机变量期望 E[X]=∑i=1nxip(xi)\mathbb{E}[X] = \sum_{i=1}^{n} x_i p(x_i) E[X]=i=1∑n​xi​p(xi​) 如果 XXX 的所有取值都是等可能的（均匀分布），即 p(xi)=1np(x_i) = \frac{1}{n}p(xi​)=n1​，则期望退化为算术平均值： E[X]=1n∑i=1nxi\mathbb{E}[X] = \frac{1}{n} \sum_{i=1}^{n} x_i  E[X]=n1​i=1∑n​xi​ 期望描述的是概率加权和，是在描述理论上的长期（无限数据）平均值，它依赖概率分布 p(xi)p(x_i)p(xi​)。而算术平均假设有限数据的所有数据点权重相同，描述有限样本的平均值。  期望的含义是用确定性来描述随机变量不确定性的。 示例：有10个数，其中8个是1，2个是2.显然，随机抽一个数，抽到1的概率为0.8，2的概率为0.2，那么期望就是10.8+20.2=1.6。 1.2...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/4072a4f.html" title="Rviz 中添加 Marker 和显示 mesh"><img class="cover" src="/images/post-7.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-22</div><div class="info-item-2">Rviz 中添加 Marker 和显示 mesh</div></div><div class="info-2"><div class="info-item-1">visualization_msgs::Marker marker; 是 ROS 中用于创建可视化标记（Marker）的关键语句。下面我将从多个角度详细解释它的含义和作用：   基本定义 • visualization_msgs::Marker  这是 ROS 提供的标准消息类型，属于 visualization_msgs 功能包。它用于在 RViz 等可视化工具中绘制各种几何图形、文本、箭头等可视化元素。 • marker 这是定义的变量名，类型为 visualization_msgs::Marker。通过这个变量，可以设置标记的属性（如位置、颜色、形状等），并最终通过发布者（Publisher）发送到 RViz 显示。   Marker 的核心作用 Marker 用于在三维空间中可视化数据，常见用途包括： • 机器人模型的可视化（如传感器范围、路径规划结果）  • 显示检测到的物体（如边界框、点云） • 绘制箭头、线条、文本等辅助调试信息   Marker 的主要字段（关键属性） 一个 Marker 消息包含以下重要字段（通过 marker.xxx...</div></div></div></a><a class="pagination-related" href="/posts/6072d733.html" title="Mathematics for Machine Learning：【06】概率论基础知识"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="info-item-2">Mathematics for Machine Learning：【06】概率论基础知识</div></div><div class="info-2"><div class="info-item-1">记录FCL库的安装过程。 1 期望 1.1 离散随机变量期望 E[X]=∑i=1nxip(xi)\mathbb{E}[X] = \sum_{i=1}^{n} x_i p(x_i) E[X]=i=1∑n​xi​p(xi​) 如果 XXX 的所有取值都是等可能的（均匀分布），即 p(xi)=1np(x_i) = \frac{1}{n}p(xi​)=n1​，则期望退化为算术平均值： E[X]=1n∑i=1nxi\mathbb{E}[X] = \frac{1}{n} \sum_{i=1}^{n} x_i  E[X]=n1​i=1∑n​xi​ 期望描述的是概率加权和，是在描述理论上的长期（无限数据）平均值，它依赖概率分布 p(xi)p(x_i)p(xi​)。而算术平均假设有限数据的所有数据点权重相同，描述有限样本的平均值。  期望的含义是用确定性来描述随机变量不确定性的。 示例：有10个数，其中8个是1，2个是2.显然，随机抽一个数，抽到1的概率为0.8，2的概率为0.2，那么期望就是10.8+20.2=1.6。 1.2...</div></div></div></a><a class="pagination-related" href="/posts/8b803b13.html" title="时间最优轨迹规划"><img class="cover" src="/images/post-9.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-28</div><div class="info-item-2">时间最优轨迹规划</div></div><div class="info-2"><div class="info-item-1">1 TOPPRA 安装与使用 1.1 Python版本简易安装 环境： Ubuntu 20.04 + Python 3.8 安装： 1234567conda activate issacgit clone https://github.com/hungpham2511/toppracd topprapip install .# 运行示例python examples/plot_kinematics.py  warning: 在import toppra时，如果使用的numpy版本是1.21.0，会报错： ImportError: numpy.core.multiarray failed to import (auto-generated because you didn’t call ‘numpy.import_array()’ after cimporting numpy; use ‘numpy._import_array’ to disable if you are certain you don’t need...</div></div></div></a><a class="pagination-related" href="/posts/ec55014e.html" title="OCS2中的C++知识"><img class="cover" src="/images/post-8.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-25</div><div class="info-item-2">OCS2中的C++知识</div></div><div class="info-2"><div class="info-item-1">1 标准库中的一些知识 1.1 std::for_each std::for_each 是 C++ 标准库 &lt;algorithm&gt; 中的一个函数，用于对容器（或迭代器范围）中的每个元素执行指定的操作。它的核心功能是 替代手写循环，提供一种更声明式（declarative）的遍历方式，同时支持函数式编程风格。以下是详细解析： 1.1.1 基本语法 1std::for_each(InputIt first, InputIt last, UnaryFunction f); • 参数： • first, last：定义范围的迭代器（左闭右开区间 [first, last)）。 • f：可调用对象（函数、Lambda、函数对象），接受容器元素类型作为参数。 • 返回值： • 返回传入的可调用对象 f（C++11 起），可用于链式操作（较少使用）。  1.1.2 工作原理 std::for_each 的行为等价于以下手写循环： 123for (auto it = first; it != last; ++it) &#123;    f(*it);  // 对当前元素调用函数...</div></div></div></a><a class="pagination-related" href="/posts/f900a735.html" title="Python 调用 ADS 接口及时间分析"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="info-item-2">Python 调用 ADS 接口及时间分析</div></div><div class="info-2"><div class="info-item-1">记录利用Python调用TwinCAT ADS接口的方法及效率测试。  1 前言 使用Python调用TwinCAT ADS接口的核心即 pyads库。笔者主要在Windows上进行了相关测试，Ubuntu上的测试尚未进行。 2 pyads从ADS读取数据的方式 笔者测试了三种方式，是否有更多的方式还有待探究。 1234567891011121314151617181920212223242526272829303132333435import pyadsimport timeimport datetimeplc = pyads.Connection(&#x27;127.0.0.1.1.1&#x27;,pyads.PORT_TC3PLC1)plc.open()# Get all symbols from TwinCAT# symbols = plc.get_all_symbols()# for item in symbols:#     print(item)# # print(&#x27;\n&#x27;.join(&quot;%s: %s&quot;% item for...</div></div></div></a><a class="pagination-related" href="/posts/d5db4349.html" title="机器人阻抗控制"><img class="cover" src="/images/post-2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="info-item-2">机器人阻抗控制</div></div><div class="info-2"><div class="info-item-1">      基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">1 安装过程与坑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 遇到的坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-gtest%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.1 gtest问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-2-libccd%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.2 libccd问题</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">2 使用示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B%E7%A8%8B%E5%BA%8F"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 创建一个简单的碰撞检测程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-STL-%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 STL 格式</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

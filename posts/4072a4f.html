@@ -1,0 +1,456 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Rviz 中添加 Marker 和显示 mesh | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="总结Rviz中添加Marker并显示的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rviz 中添加 Marker 和显示 mesh">
+<meta property="og:url" content="https://colainlibrary.com/posts/4072a4f.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="总结Rviz中添加Marker并显示的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-7.jpg">
+<meta property="article:published_time" content="2025-04-22T02:30:00.000Z">
+<meta property="article:modified_time" content="2025-04-22T06:36:50.413Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="机器人">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-7.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Rviz 中添加 Marker 和显示 mesh",
+  "url": "https://colainlibrary.com/posts/4072a4f.html",
+  "image": "https://colainlibrary.com/images/post-7.jpg",
+  "datePublished": "2025-04-22T02:30:00.000Z",
+  "dateModified": "2025-04-22T06:36:50.413Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/4072a4f.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Rviz 中添加 Marker 和显示 mesh',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-7.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">Rviz 中添加 Marker 和显示 mesh</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Rviz 中添加 Marker 和显示 mesh</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-22T02:30:00.000Z" title="发表于 2025-04-22 10:30:00">2025-04-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-22T06:36:50.413Z" title="更新于 2025-04-22 14:36:50">2025-04-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/">机器人控制</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/ROS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">ROS学习笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p><code>visualization_msgs::Marker marker;</code> 是 ROS 中用于创建可视化标记（Marker）的关键语句。下面我将从多个角度详细解释它的含义和作用：</p>
+<hr>
+<ol>
+<li><strong>基本定义</strong><br>
+• <code>visualization_msgs::Marker</code></li>
+</ol>
+<p>这是 ROS 提供的标准消息类型，属于 <code>visualization_msgs</code> 功能包。它用于在 RViz 等可视化工具中绘制各种几何图形、文本、箭头等可视化元素。</p>
+<p>• <code>marker</code></p>
+<p>这是定义的变量名，类型为 <code>visualization_msgs::Marker</code>。通过这个变量，可以设置标记的属性（如位置、颜色、形状等），并最终通过发布者（Publisher）发送到 RViz 显示。</p>
+<hr>
+<ol start="2">
+<li><strong>Marker 的核心作用</strong><br>
+Marker 用于在三维空间中可视化数据，常见用途包括：<br>
+• 机器人模型的可视化（如传感器范围、路径规划结果）</li>
+</ol>
+<p>• 显示检测到的物体（如边界框、点云）</p>
+<p>• 绘制箭头、线条、文本等辅助调试信息</p>
+<hr>
+<ol start="3">
+<li><strong>Marker 的主要字段（关键属性）</strong><br>
+一个 <code>Marker</code> 消息包含以下重要字段（通过 <code>marker.xxx</code> 设置）：</li>
+</ol>
+<p><strong>基本属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>header</code></td>
+<td><code>std_msgs/Header</code></td>
+<td>时间戳和坐标系（如 <code>&quot;map&quot;</code> 或 <code>&quot;base_link&quot;</code>）</td>
+</tr>
+<tr>
+<td><code>ns</code></td>
+<td><code>string</code></td>
+<td>命名空间（用于分组标记）</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>int32</code></td>
+<td>唯一ID（同一命名空间内不能重复）</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>int32</code></td>
+<td>形状类型（如箭头、立方体、球体等，见下文）</td>
+</tr>
+<tr>
+<td><code>action</code></td>
+<td><code>int32</code></td>
+<td>操作类型（添加/删除/修改）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>几何属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pose</code></td>
+<td>位姿（位置 <code>position</code> + 朝向 <code>orientation</code>）</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td>缩放（x/y/z方向的尺寸）</td>
+</tr>
+<tr>
+<td><code>points</code></td>
+<td>点列表（用于线、点云等）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>外观属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>color</code></td>
+<td>RGBA颜色（0~1范围）</td>
+</tr>
+<tr>
+<td><code>colors</code></td>
+<td>每个点的颜色（用于点云）</td>
+</tr>
+<tr>
+<td><code>lifetime</code></td>
+<td>显示持续时间（0表示永久）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常用形状类型（<code>type</code> 取值）</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">visualization_msgs::Marker::ARROW      <span class="comment">// 箭头</span></span><br><span class="line">visualization_msgs::Marker::CUBE       <span class="comment">// 立方体</span></span><br><span class="line">visualization_msgs::Marker::SPHERE     <span class="comment">// 球体</span></span><br><span class="line">visualization_msgs::Marker::LINE_STRIP <span class="comment">// 连续线段</span></span><br><span class="line">visualization_msgs::Marker::TEXT_VIEW_FACING <span class="comment">// 朝向相机的文本</span></span><br></pre></td></tr></table></figure>
+<hr>
+<ol start="6">
+<li><strong>注意事项</strong></li>
+<li>坐标系一致性<br>
+<code>header.frame_id</code> 必须与 RViz 的固定坐标系一致（如 <code>&quot;map&quot;</code> 或 <code>&quot;odom&quot;</code>）。</li>
+<li>ID 冲突<br>
+同一命名空间（<code>ns</code>）下的 <code>id</code> 必须唯一，否则新标记会覆盖旧标记。</li>
+<li>性能优化<br>
+避免高频发送大量 Marker 消息（可通过 <code>lifetime</code> 控制显示时长）。</li>
+</ol>
+<hr>
+<p>总结<br>
+<code>visualization_msgs::Marker marker;</code> 创建了一个可视化标记对象，通过设置其属性，可以灵活地在 RViz 中绘制各种图形，是机器人可视化调试的重要工具。</p>
+<p>在 <code>visualization_msgs/Marker</code> 消息中，ROS 定义了一系列标准类型（<code>type</code> 字段），用于表示不同的几何形状和可视化元素。以下是所有可用的类型及其用途的详细说明：</p>
+<hr>
+<p><strong>1. 基本几何形状</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ARROW</code></td>
+<td>0</td>
+<td>箭头，表示方向或向量（需设置 <code>points</code> 或 <code>pose</code>）</td>
+</tr>
+<tr>
+<td><code>CUBE</code></td>
+<td>1</td>
+<td>立方体（需设置 <code>scale.x/y/z</code> 定义尺寸）</td>
+</tr>
+<tr>
+<td><code>SPHERE</code></td>
+<td>2</td>
+<td>球体（<code>scale.x/y/z</code> 应相同）</td>
+</tr>
+<tr>
+<td><code>CYLINDER</code></td>
+<td>3</td>
+<td>圆柱体（<code>scale.x</code>=直径，<code>scale.z</code>=高度）</td>
+</tr>
+<tr>
+<td><code>LINE_STRIP</code></td>
+<td>4</td>
+<td>连续线段（通过 <code>points</code> 定义顶点，按顺序连接）</td>
+</tr>
+<tr>
+<td><code>LINE_LIST</code></td>
+<td>5</td>
+<td>离散线段（每两个点组成一条线段）</td>
+</tr>
+<tr>
+<td><code>CUBE_LIST</code></td>
+<td>6</td>
+<td>立方体集合（每个点代表一个立方体中心）</td>
+</tr>
+<tr>
+<td><code>SPHERE_LIST</code></td>
+<td>7</td>
+<td>球体集合（每个点代表一个球体中心）</td>
+</tr>
+<tr>
+<td><code>POINTS</code></td>
+<td>8</td>
+<td>点云（每个点显示为方形点，可通过 <code>scale.x/y</code> 调整大小）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>2. 文本与标注</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TEXT_VIEW_FACING</code></td>
+<td>9</td>
+<td>朝向相机的文本（文本始终面向用户，需设置 <code>text</code> 字段）</td>
+</tr>
+<tr>
+<td><code>MESH_RESOURCE</code></td>
+<td>10</td>
+<td>3D 网格模型（需提供 <code>mesh_resource</code> 路径，如 <code>package://package_name/mesh.stl</code>）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>3. 特殊用途类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型常量</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TRIANGLE_LIST</code></td>
+<td>11</td>
+<td>三角形集合（每三个点构成一个三角形）</td>
+</tr>
+<tr>
+<td><code>INSTANCED_LINE_LIST</code></td>
+<td>12</td>
+<td>实例化线段（高效绘制大量线段，需自定义着色器支持）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>4. 类型常量定义（C++ 示例）</strong><br>
+在代码中，这些类型通过枚举常量调用，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">visualization_msgs::Marker marker;</span><br><span class="line">marker.type = visualization_msgs::Marker::SPHERE;  <span class="comment">// 使用球体类型</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>5. 关键字段依赖</strong><br>
+不同类型的 Marker 需要设置不同的字段：<br>
+• <code>ARROW</code>/<code>LINE_STRIP</code>/<code>LINE_LIST</code>：需通过 <code>points</code> 提供顶点坐标。</p>
+<p>• <code>TEXT_VIEW_FACING</code>：需设置 <code>text</code> 字段填充字符串。</p>
+<p>• <code>MESH_RESOURCE</code>：需设置 <code>mesh_resource</code> 和 <code>mesh_use_embedded_materials</code>。</p>
+<hr>
+<p><strong>6. 完整代码示例</strong><br>
+<strong>示例 1：箭头（方向指示）</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">marker.type = visualization_msgs::Marker::ARROW;</span><br><span class="line">marker.pose.position.x = <span class="number">0</span>;</span><br><span class="line">marker.pose.position.y = <span class="number">0</span>;</span><br><span class="line">marker.pose.orientation.w = <span class="number">1.0</span>;  <span class="comment">// 朝向</span></span><br><span class="line">marker.scale.x = <span class="number">0.1</span>;  <span class="comment">// 箭杆粗细</span></span><br><span class="line">marker.scale.y = <span class="number">0.2</span>;  <span class="comment">// 箭头宽度</span></span><br><span class="line">marker.scale.z = <span class="number">0.0</span>;  <span class="comment">// 忽略</span></span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：文本标签</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">marker.type = visualization_msgs::Marker::TEXT_VIEW_FACING;</span><br><span class="line">marker.text = <span class="string">&quot;Hello, RViz!&quot;</span>;</span><br><span class="line">marker.scale.z = <span class="number">0.1</span>;  <span class="comment">// 字体大小</span></span><br><span class="line">marker.color.a = <span class="number">1.0</span>;  <span class="comment">// 不透明度</span></span><br></pre></td></tr></table></figure>
+<p><strong>示例 3：三角形网格</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">marker.type = visualization_msgs::Marker::TRIANGLE_LIST;</span><br><span class="line">geometry_msgs::Point p1, p2, p3;</span><br><span class="line">p<span class="number">1.</span>x = <span class="number">0</span>; p<span class="number">1.</span>y = <span class="number">0</span>; p<span class="number">1.</span>z = <span class="number">0</span>;</span><br><span class="line">p<span class="number">2.</span>x = <span class="number">1</span>; p<span class="number">2.</span>y = <span class="number">0</span>; p<span class="number">2.</span>z = <span class="number">0</span>;</span><br><span class="line">p<span class="number">3.</span>x = <span class="number">0</span>; p<span class="number">3.</span>y = <span class="number">1</span>; p<span class="number">3.</span>z = <span class="number">0</span>;</span><br><span class="line">marker.points.<span class="built_in">push_back</span>(p1);</span><br><span class="line">marker.points.<span class="built_in">push_back</span>(p2);</span><br><span class="line">marker.points.<span class="built_in">push_back</span>(p3);</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>7. 注意事项</strong></p>
+<ol>
+<li>
+<p>性能影响：<br>
+• <code>LINE_LIST</code>、<code>POINTS</code> 等类型适合大量数据，但高频更新可能导致 RViz 卡顿。</p>
+<p>• 对于静态元素，设置 <code>lifetime</code> 为 <code>ros::Duration(0)</code>（永久显示）。</p>
+</li>
+<li>
+<p>坐标系：<br>
+• 所有几何体的位置依赖 <code>header.frame_id</code> 指定的坐标系。</p>
+</li>
+<li>
+<p>颜色设置：<br>
+• 若未指定颜色，RViz 可能显示为默认色（如白色）。</p>
+</li>
+</ol>
+<hr>
+<p><strong>总结</strong><br>
+<code>visualization_msgs/Marker</code> 提供了 12 种标准类型，覆盖从基础几何体到复杂网格的多种可视化需求。通过组合这些类型，可以高效地在 RViz 中实现机器人路径、传感器数据、调试信息等的可视化。具体选择取决于场景需求（如是否需要方向指示、文本标注或批量渲染）。</p>
+<h1>示例工程</h1>
+<p>在ROS的工作空间中创建一个新包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install ros-noetic-tf2 ros-noetic-tf2-ros  <span class="comment"># 确保安装了对应版本的tf2</span></span><br><span class="line"><span class="built_in">cd</span> ~/catkin_ws/src</span><br><span class="line">catkin_create_pkg rviz_cube_demo roscpp visualization_msgs</span><br></pre></td></tr></table></figure>
+<p>在rviz_cube_demo包中创建源文件src/cube_marker.cpp，并添加以下内容：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ros/ros.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;visualization_msgs/Marker.h&gt;</span>              <span class="comment">// 定义RViz可视化标记的消息类型</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;tf2_ros/static_transform_broadcaster.h&gt;</span>   <span class="comment">// 用于发布静态坐标变换</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;geometry_msgs/TransformStamped.h&gt;</span>         <span class="comment">// 定义坐标变换消息</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>** argv)</span> </span>&#123;</span><br><span class="line">    ros::<span class="built_in">init</span>(argc, argv, <span class="string">&quot;cube_marker_node&quot;</span>);</span><br><span class="line">    ros::NodeHandle nh;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 发布静态tf</span></span><br><span class="line">    tf2_ros::StaticTransformBroadcaster static_broadcaster;</span><br><span class="line">    geometry_msgs::TransformStamped static_transform;</span><br><span class="line">    </span><br><span class="line">    static_transform.header.stamp = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">    static_transform.header.frame_id = <span class="string">&quot;map&quot;</span>;</span><br><span class="line">    static_transform.child_frame_id = <span class="string">&quot;base_link&quot;</span>;</span><br><span class="line">    static_transform.transform.translation.x = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.translation.y = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.translation.z = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.rotation.x = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.rotation.y = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.rotation.z = <span class="number">0.0</span>;</span><br><span class="line">    static_transform.transform.rotation.w = <span class="number">1.0</span>;</span><br><span class="line">    </span><br><span class="line">    static_broadcaster.<span class="built_in">sendTransform</span>(static_transform);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 发布者创建，&lt;visualization_msgs::Marker&gt;: 发布的消息类型，&quot;visualization_marker&quot;: 话题名称，1 表示消息队列大小</span></span><br><span class="line">    ros::Publisher marker_pub = nh.<span class="built_in">advertise</span>&lt;visualization_msgs::Marker&gt;(<span class="string">&quot;visualization_marker&quot;</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// 控制循环频率</span></span><br><span class="line">    <span class="function">ros::Rate <span class="title">loop_rate</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 等待订阅者订阅话题: visualization_marker</span></span><br><span class="line">    <span class="comment">// 如果订阅者小于 1 个，则循环等待订阅者订阅话题</span></span><br><span class="line">    <span class="keyword">while</span> (marker_pub.<span class="built_in">getNumSubscribers</span>() &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!ros::<span class="built_in">ok</span>()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="comment">// 确保只显示一次</span></span><br><span class="line">        <span class="built_in">ROS_WARN_ONCE</span>(<span class="string">&quot;Please open Rviz and subscribe &#x27;visualization_marker&#x27; topic to see the marker&quot;</span>);</span><br><span class="line">        <span class="comment">// 每秒循环一次</span></span><br><span class="line">        ros::<span class="built_in">Duration</span>(<span class="number">1.0</span>).<span class="built_in">sleep</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建一个marker，并进行配置</span></span><br><span class="line">    visualization_msgs::Marker marker;</span><br><span class="line">    marker.header.frame_id = <span class="string">&quot;base_link&quot;</span>;             <span class="comment">// maker将相对于base_link坐标系显示，必须确保该坐标系存在</span></span><br><span class="line">    marker.header.stamp = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">    marker.ns = <span class="string">&quot;basic_shapes&quot;</span>;</span><br><span class="line">    marker.id = <span class="number">0</span>;</span><br><span class="line">    marker.type = visualization_msgs::Marker::CUBE;   <span class="comment">// 标记类型，其他可选类型ARROW、SPHERE、CYLINDER、LINE_STRIP等</span></span><br><span class="line">    marker.action = visualization_msgs::Marker::ADD;  <span class="comment">// 标记动作，其他可选动作：DELETE、DELETEALL</span></span><br><span class="line">    </span><br><span class="line">    marker.pose.position.x = <span class="number">0</span>;</span><br><span class="line">    marker.pose.position.y = <span class="number">0</span>;</span><br><span class="line">    marker.pose.position.z = <span class="number">0</span>;</span><br><span class="line">    marker.pose.orientation.w = <span class="number">1.0</span>;</span><br><span class="line">    </span><br><span class="line">    marker.scale.x = <span class="number">0.2</span>;</span><br><span class="line">    marker.scale.y = <span class="number">0.2</span>;</span><br><span class="line">    marker.scale.z = <span class="number">0.2</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置marker颜色</span></span><br><span class="line">    marker.color.r = <span class="number">0.0f</span>;</span><br><span class="line">    marker.color.g = <span class="number">1.0f</span>;</span><br><span class="line">    marker.color.b = <span class="number">0.0f</span>;</span><br><span class="line">    marker.color.a = <span class="number">1.0</span>;</span><br><span class="line">    </span><br><span class="line">    marker.lifetime = ros::<span class="built_in">Duration</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个 STL 的marker</span></span><br><span class="line">    <span class="comment">// ---------------------------</span></span><br><span class="line">    <span class="comment">// 1. 添加STL模型Marker (红色)</span></span><br><span class="line">    <span class="comment">// ---------------------------</span></span><br><span class="line">    visualization_msgs::Marker stl_marker;</span><br><span class="line">    stl_marker.header.frame_id = <span class="string">&quot;base_link&quot;</span>;</span><br><span class="line">    stl_marker.header.stamp = ros::Time::<span class="built_in">now</span>();</span><br><span class="line">    stl_marker.ns = <span class="string">&quot;stl_model&quot;</span>;</span><br><span class="line">    stl_marker.id = <span class="number">0</span>;</span><br><span class="line">    stl_marker.type = visualization_msgs::Marker::MESH_RESOURCE;</span><br><span class="line">    stl_marker.mesh_resource = <span class="string">&quot;file:///home/ah/catkin_ws/src/URDF-H1_Pro/meshes/TORSO.STL&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置STL的缩放比例 (假设STL以毫米为单位)</span></span><br><span class="line">    stl_marker.scale.x = <span class="number">1</span>;</span><br><span class="line">    stl_marker.scale.y = <span class="number">1</span>;</span><br><span class="line">    stl_marker.scale.z = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置位置和姿态 (单位: 米)</span></span><br><span class="line">    stl_marker.pose.position.x = <span class="number">0.5</span>;</span><br><span class="line">    stl_marker.pose.position.y = <span class="number">0.0</span>;</span><br><span class="line">    stl_marker.pose.position.z = <span class="number">0.0</span>;</span><br><span class="line">    stl_marker.pose.orientation.w = <span class="number">1.0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 设置颜色 (RGBA, 红色半透明)</span></span><br><span class="line">    stl_marker.color.r = <span class="number">1.0</span>;</span><br><span class="line">    stl_marker.color.g = <span class="number">0.0</span>;</span><br><span class="line">    stl_marker.color.b = <span class="number">0.0</span>;</span><br><span class="line">    stl_marker.color.a = <span class="number">1.0</span>;  <span class="comment">// 透明度</span></span><br><span class="line"></span><br><span class="line">    stl_marker.lifetime = ros::<span class="built_in">Duration</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (ros::<span class="built_in">ok</span>()) &#123;</span><br><span class="line">        marker_pub.<span class="built_in">publish</span>(marker);</span><br><span class="line">        marker_pub.<span class="built_in">publish</span>(stl_marker);</span><br><span class="line">        ros::<span class="built_in">spinOnce</span>();</span><br><span class="line">        loop_rate.<span class="built_in">sleep</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>修改CMakeLists.txt文件，添加以下内容：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.0</span>.<span class="number">2</span>)</span><br><span class="line"><span class="keyword">project</span>(rviz_cube_demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(catkin REQUIRED COMPONENTS</span><br><span class="line">  roscpp</span><br><span class="line">  visualization_msgs</span><br><span class="line">  tf2_ros</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">include_directories</span>(</span><br><span class="line"><span class="comment"># include</span></span><br><span class="line">  <span class="variable">$&#123;catkin_INCLUDE_DIRS&#125;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(cube_marker src/cube_marker.cpp)</span><br><span class="line"><span class="keyword">target_link_libraries</span>(cube_marker <span class="variable">$&#123;catkin_LIBRARIES&#125;</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: ROS的visualization_msgs/Marker在设计上强制使用package://或file://协议路径，这是出于安全考虑。直接使用绝对路径（如/home/user/model.stl）会被拒绝。<br>
+运行方式：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一个终端</span></span><br><span class="line">roscore</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二个终端</span></span><br><span class="line"><span class="built_in">cd</span> ~/catkin_ws</span><br><span class="line">catkin_make</span><br><span class="line"><span class="built_in">source</span> devel/setup.bash</span><br><span class="line">rosrun rviz_cube_demo cube_marker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第三个终端</span></span><br><span class="line">rosrun rviz rviz</span><br></pre></td></tr></table></figure>
+<p>在RViz中，<code>Add-&gt;Marker</code>，然后在Marker中的<code>Topic</code>，选择<code>visualization_marker</code>。<br>
+运行后的效果<br>
+<img src="/images/20250422/mesh_cube.png" alt="rviz_cube_demo"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/4072a4f.html">https://colainlibrary.com/posts/4072a4f.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a><a class="post-meta__tags" href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></div><div class="post-share"><div class="social-share" data-image="/images/post-7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/6072d733.html" title="Mathematics for Machine Learning：【06】概率论基础知识"><img class="cover" src="/images/post-6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Mathematics for Machine Learning：【06】概率论基础知识</div></div><div class="info-2"><div class="info-item-1">记录FCL库的安装过程。 1 期望 1.1 离散随机变量期望 E[X]=∑i=1nxip(xi)\mathbb{E}[X] = \sum_{i=1}^{n} x_i p(x_i) E[X]=i=1∑n​xi​p(xi​) 如果 XXX 的所有取值都是等可能的（均匀分布），即 p(xi)=1np(x_i) = \frac{1}{n}p(xi​)=n1​，则期望退化为算术平均值： E[X]=1n∑i=1nxi\mathbb{E}[X] = \frac{1}{n} \sum_{i=1}^{n} x_i  E[X]=n1​i=1∑n​xi​ 期望描述的是概率加权和，是在描述理论上的长期（无限数据）平均值，它依赖概率分布 p(xi)p(x_i)p(xi​)。而算术平均假设有限数据的所有数据点权重相同，描述有限样本的平均值。  期望的含义是用确定性来描述随机变量不确定性的。 示例：有10个数，其中8个是1，2个是2.显然，随机抽一个数，抽到1的概率为0.8，2的概率为0.2，那么期望就是10.8+20.2=1.6。 1.2...</div></div></div></a><a class="pagination-related" href="/posts/ec55014e.html" title="OCS2中的C++知识"><img class="cover" src="/images/post-8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">OCS2中的C++知识</div></div><div class="info-2"><div class="info-item-1">1 标准库中的一些知识 1.1 std::for_each std::for_each 是 C++ 标准库 &lt;algorithm&gt; 中的一个函数，用于对容器（或迭代器范围）中的每个元素执行指定的操作。它的核心功能是 替代手写循环，提供一种更声明式（declarative）的遍历方式，同时支持函数式编程风格。以下是详细解析： 1.1.1 基本语法 1std::for_each(InputIt first, InputIt last, UnaryFunction f); • 参数： • first, last：定义范围的迭代器（左闭右开区间 [first, last)）。 • f：可调用对象（函数、Lambda、函数对象），接受容器元素类型作为参数。 • 返回值： • 返回传入的可调用对象 f（C++11 起），可用于链式操作（较少使用）。  1.1.2 工作原理 std::for_each 的行为等价于以下手写循环： 123for (auto it = first; it != last; ++it) &#123;    f(*it);  // 对当前元素调用函数...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/6072d733.html" title="Mathematics for Machine Learning：【06】概率论基础知识"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="info-item-2">Mathematics for Machine Learning：【06】概率论基础知识</div></div><div class="info-2"><div class="info-item-1">记录FCL库的安装过程。 1 期望 1.1 离散随机变量期望 E[X]=∑i=1nxip(xi)\mathbb{E}[X] = \sum_{i=1}^{n} x_i p(x_i) E[X]=i=1∑n​xi​p(xi​) 如果 XXX 的所有取值都是等可能的（均匀分布），即 p(xi)=1np(x_i) = \frac{1}{n}p(xi​)=n1​，则期望退化为算术平均值： E[X]=1n∑i=1nxi\mathbb{E}[X] = \frac{1}{n} \sum_{i=1}^{n} x_i  E[X]=n1​i=1∑n​xi​ 期望描述的是概率加权和，是在描述理论上的长期（无限数据）平均值，它依赖概率分布 p(xi)p(x_i)p(xi​)。而算术平均假设有限数据的所有数据点权重相同，描述有限样本的平均值。  期望的含义是用确定性来描述随机变量不确定性的。 示例：有10个数，其中8个是1，2个是2.显然，随机抽一个数，抽到1的概率为0.8，2的概率为0.2，那么期望就是10.8+20.2=1.6。 1.2...</div></div></div></a><a class="pagination-related" href="/posts/583bf617.html" title="FCL库的安装"><img class="cover" src="/images/post-5.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-16</div><div class="info-item-2">FCL库的安装</div></div><div class="info-2"><div class="info-item-1">记录FCL库的安装过程。 1 安装过程与坑 1.1 安装 依赖：libccd、OctoMap libccd对应的仓库链接： libccdhttps://github.com/danfis/libccd 123456cd libccd/mkdir buildcd buildcmake -DCMAKE_POSITION_INDEPENDENT_CODE=ON ..  # 添加这个选项生成动态库，因为FCL需要链接动态库而不是静态库make -jsudo make install OctoMap对应的仓库链接： OctoMaphttps://github.com/OctoMap/octomap 12345cd octomap-1.10.0cd build/cmake ..make -jsudo make install FCL对应的仓库链接： FCLhttps://github.com/flexible-collision-library/fcl 123456cd fclmkdir buildcd buildcmake ..makesudo make...</div></div></div></a><a class="pagination-related" href="/posts/8b803b13.html" title="时间最优轨迹规划"><img class="cover" src="/images/post-9.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-28</div><div class="info-item-2">时间最优轨迹规划</div></div><div class="info-2"><div class="info-item-1">1 TOPPRA 安装与使用 1.1 Python版本简易安装 环境： Ubuntu 20.04 + Python 3.8 安装： 1234567conda activate issacgit clone https://github.com/hungpham2511/toppracd topprapip install .# 运行示例python examples/plot_kinematics.py  warning: 在import toppra时，如果使用的numpy版本是1.21.0，会报错： ImportError: numpy.core.multiarray failed to import (auto-generated because you didn’t call ‘numpy.import_array()’ after cimporting numpy; use ‘numpy._import_array’ to disable if you are certain you don’t need...</div></div></div></a><a class="pagination-related" href="/posts/ec55014e.html" title="OCS2中的C++知识"><img class="cover" src="/images/post-8.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-25</div><div class="info-item-2">OCS2中的C++知识</div></div><div class="info-2"><div class="info-item-1">1 标准库中的一些知识 1.1 std::for_each std::for_each 是 C++ 标准库 &lt;algorithm&gt; 中的一个函数，用于对容器（或迭代器范围）中的每个元素执行指定的操作。它的核心功能是 替代手写循环，提供一种更声明式（declarative）的遍历方式，同时支持函数式编程风格。以下是详细解析： 1.1.1 基本语法 1std::for_each(InputIt first, InputIt last, UnaryFunction f); • 参数： • first, last：定义范围的迭代器（左闭右开区间 [first, last)）。 • f：可调用对象（函数、Lambda、函数对象），接受容器元素类型作为参数。 • 返回值： • 返回传入的可调用对象 f（C++11 起），可用于链式操作（较少使用）。  1.1.2 工作原理 std::for_each 的行为等价于以下手写循环： 123for (auto it = first; it != last; ++it) &#123;    f(*it);  // 对当前元素调用函数...</div></div></div></a><a class="pagination-related" href="/posts/f900a735.html" title="Python 调用 ADS 接口及时间分析"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-21</div><div class="info-item-2">Python 调用 ADS 接口及时间分析</div></div><div class="info-2"><div class="info-item-1">记录利用Python调用TwinCAT ADS接口的方法及效率测试。  1 前言 使用Python调用TwinCAT ADS接口的核心即 pyads库。笔者主要在Windows上进行了相关测试，Ubuntu上的测试尚未进行。 2 pyads从ADS读取数据的方式 笔者测试了三种方式，是否有更多的方式还有待探究。 1234567891011121314151617181920212223242526272829303132333435import pyadsimport timeimport datetimeplc = pyads.Connection(&#x27;127.0.0.1.1.1&#x27;,pyads.PORT_TC3PLC1)plc.open()# Get all symbols from TwinCAT# symbols = plc.get_all_symbols()# for item in symbols:#     print(item)# # print(&#x27;\n&#x27;.join(&quot;%s: %s&quot;% item for...</div></div></div></a><a class="pagination-related" href="/posts/d5db4349.html" title="机器人阻抗控制"><img class="cover" src="/images/post-2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="info-item-2">机器人阻抗控制</div></div><div class="info-2"><div class="info-item-1">      基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">示例工程</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>

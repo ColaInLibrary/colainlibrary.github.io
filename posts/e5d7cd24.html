@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Ethercat 主站搭建 | Cola In Library</title><meta name="author" content="Cola &amp; Library"><meta name="copyright" content="Cola &amp; Library"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="介绍 Ubuntu16.04 下 Igh Ethercat 主站搭建的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethercat 主站搭建">
+<meta property="og:url" content="https://colainlibrary.com/posts/e5d7cd24.html">
+<meta property="og:site_name" content="Cola In Library">
+<meta property="og:description" content="介绍 Ubuntu16.04 下 Igh Ethercat 主站搭建的过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://colainlibrary.com/images/post-7.jpg">
+<meta property="article:published_time" content="2021-04-17T03:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-18T05:23:16.084Z">
+<meta property="article:author" content="Cola &amp; Library">
+<meta property="article:tag" content="Library">
+<meta property="article:tag" content="机器人">
+<meta property="article:tag" content="Ethercat">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://colainlibrary.com/images/post-7.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Ethercat 主站搭建",
+  "url": "https://colainlibrary.com/posts/e5d7cd24.html",
+  "image": "https://colainlibrary.com/images/post-7.jpg",
+  "datePublished": "2021-04-17T03:00:00.000Z",
+  "dateModified": "2022-08-18T05:23:16.084Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Cola & Library",
+      "url": "https://colainlibrary.com/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/images/favicon-28x32.png"><link rel="canonical" href="https://colainlibrary.com/posts/e5d7cd24.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Ethercat 主站搭建',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/custom.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="Cola In Library" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/images/post-7.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Cola In Library</span></a><a class="nav-page-title" href="/"><span class="site-name">Ethercat 主站搭建</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Ethercat 主站搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-04-17T03:00:00.000Z" title="发表于 2021-04-17 11:00:00">2021-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-18T05:23:16.084Z" title="更新于 2022-08-18 13:23:16">2022-08-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/">机器人控制</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8E%A7%E5%88%B6/%E4%B8%93%E6%A0%8F%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E-Preempt-rt-%E5%92%8C-Igh-Ethercat-%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">专栏——基于 Preempt_rt 和 Igh Ethercat 的环境配置</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>介绍 Ubuntu16.04 下 Igh Ethercat 主站搭建的过程。</p>
+<span id="more"></span>
+<h1>1 前言</h1>
+<p>从 <a target="_blank" rel="noopener" href="https://github.com/ribalda/ethercat">https://github.com/ribalda/ethercat</a> 下载 ethercat 安装包。</p>
+<h1>2 安装流程</h1>
+<p>用 <strong>lspci -vvv</strong> 查看网卡的型号以及驱动类型，也可以系统桌面右上角的网络连接中查看网卡的型号，从网上搜驱动类型。</p>
+<p><img src="/images/20210417/82576.png" alt="82575EB"></p>
+<p><em>Ethernet controller</em> 可以看到网卡型号为 <em>82576</em>，<em>Kernel modules</em> 可以看到网卡驱动类型为 <em>igb</em>。</p>
+<p>用 <strong>ifconfig</strong> 查看所有网卡的MAC地址，也可以从系统桌面右上角的网络连接中通过 <em>Edit Connections</em> --&gt; <em>Edit</em> --&gt; <em>Ethernet</em> --&gt; <em>Device</em> 中查看。</p>
+<p><img src="/images/20210417/mac.png" alt="mac"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install autoconf autogen libtool   <span class="comment"># 安装依赖项</span></span><br><span class="line"><span class="built_in">cd</span> 安装包路径</span><br><span class="line">./bootstrap</span><br><span class="line">./configure --prefix=/opt/etherlab --enable-generic --enable-8139too=no --enable-igb=<span class="built_in">yes</span> --enable-r8169=<span class="built_in">yes</span> --enable-e1000e=<span class="built_in">yes</span> --enable-cycles --enable-hrtimer</span><br><span class="line"><span class="comment">#./configure --prefix=/opt/etherlab --enable-generic --enable-8139too=no --enable-igb=yes --enable-r8169=yes --enable-e1000e=yes --enable-cycles --enable-hrtimer=yes --enable-rtdm=yes --with-xenomai-dir=/usr/xenomai</span></span><br><span class="line">make -j6</span><br><span class="line">make all modules</span><br><span class="line"><span class="built_in">sudo</span> -s</span><br><span class="line">make install</span><br><span class="line"><span class="built_in">sudo</span> make modules_install</span><br><span class="line"><span class="built_in">cd</span> /etc</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> sysconfig</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /opt/etherlab/etc/sysconfig/ethercat /etc/sysconfig</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /opt/etherlab/etc/init.d/ethercat /etc/init.d</span><br><span class="line"><span class="built_in">sudo</span> <span class="built_in">cp</span> /opt/etherlab/etc/ethercat.conf /etc</span><br><span class="line"><span class="built_in">sudo</span> gedit /etc/sysconfig/ethercat </span><br></pre></td></tr></table></figure>
+<p>在第27行 <font face="黑体" color=red size=5>MASTER0_DEVICE的引号中</font> 添加网卡的MAC地址，例如 <em>MASTER0_DEVICE=“6c:b3:11:40:a7:e0”</em>。</p>
+<p>在第100行 <font face="黑体" color=red size=5>DEVICE_MODULES的引号中</font> 添加网卡驱动类型，例如 <em>DEVICE_MODULES=“igb”</em>。</p>
+<p><font face="黑体" color=red size=5>注意：经过实际测试，preempt_rt+Ethercat，使用igb的驱动，会造成内存泄露的问题。现象就是程序正常运行，然后内存会逐渐增大，用最简单的程序，大概会一分钟增加0.01G内存，程序结束后，这块内存也不会自动销毁，换成generic的驱动（或者使用RTL8169驱动支持的网卡），则没有这个问题！</font></p>
+<p>保存退出后，继续执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">ln</span> -s /opt/etherlab/bin/ethercat /usr/local/bin/ethercat</span><br><span class="line"><span class="built_in">echo</span> KERNEL==\&quot;EtherCAT[0-9]*\&quot;, MODE=\&quot;0664\&quot; &gt; /etc/udev/rules.d/99-EtherCAT.rules</span><br><span class="line"><span class="built_in">sudo</span> depmod</span><br><span class="line"><span class="built_in">sudo</span> /etc/init.d/ethercat start     <span class="comment"># 打开主站</span></span><br><span class="line"><span class="built_in">sudo</span> /etc/init.d/ethercat stop      <span class="comment"># 停止主站</span></span><br><span class="line"><span class="built_in">sudo</span> /etc/init.d/ethercat restart   <span class="comment"># 重启主站</span></span><br></pre></td></tr></table></figure>
+<h1>3 主站测试</h1>
+<p>在超级用户模式下执行 <em>/etc/init.d/ethercat start</em> 指令后，得到如下结果表示主站安装正确。</p>
+<p><img src="/images/20210417/start.png" alt="start"></p>
+<p>通过 <em>ethercat slaves</em> 可以查看连接的从站情况。</p>
+<p><img src="/images/20210417/slaves.png" alt="slaves"></p>
+<p>从 Igh 主站 PDF 文件中可以找到各项的输出信息解释如下所示：</p>
+<p><img src="/images/20210417/explaination.png" alt="exp"></p>
+<blockquote>
+<p>Tip1：注意读出来的名字是否正常，如果名字与相应的 xml 文件中名字不一致，大概率是不能通过 Igh 主站来配置的。原因有很多种，建议用一个标准的商用产品先做调试。</p>
+</blockquote>
+<blockquote>
+<p>Tip2: 如果读取到从站的名字全是 0，考虑网卡型号不符合 Igh 主站的要求。</p>
+</blockquote>
+<p>从 Igh 官网可以查看相应的说明，官网网址：<a target="_blank" rel="noopener" href="https://etherlab.org/en/ethercat/">https://etherlab.org/en/ethercat/</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://colainlibrary.com">Cola &amp; Library</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://colainlibrary.com/posts/e5d7cd24.html">https://colainlibrary.com/posts/e5d7cd24.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://colainlibrary.com" target="_blank">Cola In Library</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Library/">Library</a><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/">机器人</a><a class="post-meta__tags" href="/tags/Ethercat/">Ethercat</a></div><div class="post-share"><div class="social-share" data-image="/images/post-7.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/wechatpay.png" target="_blank"><img class="post-qr-code-img" src="/images/wechatpay.png" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/images/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/images/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/d44fcc81.html" title="preempt_rt 实时内核补丁"><img class="cover" src="/images/post-6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">preempt_rt 实时内核补丁</div></div><div class="info-2"><div class="info-item-1">介绍在 Ubuntu16.04 下安装 preempt_rt 实时内核的方法。  注意：因为 Realtek 网卡的 Ethercat 驱动只支持到了 4.14 版本的内核，所以笔者最后使用了 4.14.226 版本：  linux-4.14.226.tar.xz: https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/ patch-4.14.226-rt109.patch.gz: https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/4.14/older/  1 前言 硬件平台： Core™ i5-8400 CPU @ 2.80GHz × 6 软件平台： Ubuntu16.04.7 从 (https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/) 下载4.19.72版本的内核 linux-4.19.72.tar.xz。 从...</div></div></div></a><a class="pagination-related" href="/posts/456588d2.html" title="Linux 多内核切换和设置默认开启内核"><img class="cover" src="/images/post-8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux 多内核切换和设置默认开启内核</div></div><div class="info-2"><div class="info-item-1">记录 Ubuntu16.04 多内核切换的方法。  1 前言 最近在Ubuntu中装了多个内核，涉及到了默认启动内核选择的问题，在此做一个简要记录。 2 更新grub 1sudo gedit /boot/grub/grub.cfg   第134行&quot;memuentry&quot;开始是Ubuntu启动时的开机选项，用数字表示为0，单引号中的’Ubuntu’就是grub的第一个启动项； 第151行&quot;submenu&quot;表示二级目录，用数字表示为1，该目录下的&quot;memuentry&quot;再从0开始计； 第152行&quot;memuentry&quot;单引号中的’Ubuntu, with Linux 4.19.72-rt26’就是grub的另一个启动项，以此类推。 1sudo gedit /etc/default/grub  第6行改为 GRUB_DEFAULT=“Advanced options for Ubuntu&gt;Ubuntu, with Linux...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/d5db4349.html" title="机器人阻抗控制"><img class="cover" src="/images/post-2.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-15</div><div class="info-item-2">机器人阻抗控制</div></div><div class="info-2"><div class="info-item-1">      基于自行搭建的机器人控制器,从电机力矩层面实现阻抗控制.  </div></div></div></a><a class="pagination-related" href="/posts/1a88a2b6.html" title="SDH，一变就通"><img class="cover" src="/images/post-1.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-20</div><div class="info-item-2">SDH，一变就通</div></div><div class="info-2"><div class="info-item-1"> 1 前言 上篇已经介绍过 SDH 建立坐标系的过程，本篇来介绍下 SDH 参数表示坐标系间的齐次变换矩阵。 用 RxR_xRx​ 表示绕 xxx 轴的三维旋转矩阵，用 Rx\mathcal{R}_xRx​ 表示绕 xxx 轴旋转的齐次变换矩阵。 Rx(θ)=[1000cos⁡θ−sin⁡θ0sin⁡θcos⁡θ]∈R3×3R_{x}(\theta)=\begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; \cos\theta &amp; -\sin\theta \\ 0 &amp; \sin\theta &amp; \cos\theta \\ \end{bmatrix} \in \mathbb{R}^{3\times 3} Rx​(θ)=​100​0cosθsinθ​0−sinθcosθ​​∈R3×3 Ry(θ)=[cos⁡θ0sin⁡θ010−sin⁡θ0cos⁡θ]∈R3×3R_{y}(\theta)=\begin{bmatrix} \cos\theta &amp; 0 &amp; \sin\theta \\ 0 &amp; 1...</div></div></div></a><a class="pagination-related" href="/posts/22acf33e.html" title="SDH，一学就会"><img class="cover" src="/images/post-0.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-19</div><div class="info-item-2">SDH，一学就会</div></div><div class="info-2"><div class="info-item-1">介绍标准 DH(SDH) 机器人建系方法。  1 前言 在做机器人控制的时候，为了能够方便地对机器人进行力矩控制，自己搭建了一套控制器。在搭建完基本的硬件平台后，需要对机器人进行建模。首先是机器人坐标系的建立。以UR10为例。 有两种可以在 MATLAB 中使用的工具箱：  PerterCoke的Robotics ToolBox ARTE: A ROBOTICS TOOLBOX FOR EDUCATION  第一种工具箱对应的有一本书 《Robotics, Vision and Control》[1]，这个用的比较多，不再赘述。 第二种工具箱下载好后将路径添加到 MATLAB 中，然后在它的文件夹下运行一下命令即可。 12345init_librobot = load_robot(&#x27;UR&#x27;,&#x27;UR10&#x27;);% 关节坐标轴是否可见% robot.graphical.draw_axes = 1 drawrobot3d(robot,[0 0 0 0 0 0]) 2 SDH建立坐标系的过程  上图所示的转动关节 DH...</div></div></div></a><a class="pagination-related" href="/posts/6d0d409.html" title="Ethercat 主站调试"><img class="cover" src="/images/post-9.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-22</div><div class="info-item-2">Ethercat 主站调试</div></div><div class="info-2"><div class="info-item-1">记录 Ethercat 驱动电机所用到的函数。  参考链接  Igh1.5.2 etherCAT接口分析 Ethercat解析（十二）之命令行工具的使用 Ethercat系列—IGH DC模式测试电机程序（Preempt-RT）  1 前言 在做机器人控制的时候，为了能够方便地对机器人进行力矩控制，自己搭建了一套控制器。笔者从机器人Ethercat主站的工作开始做起。 实时内核补丁、操作系统在搭建的时候有如下探索结果：  xenomai3.1/xenomai3.0.5 + Ubuntu16.04，编译时 rtdm 模块有问题，编译 Igh Ethercat 时，使能rtai 模块，总是编译无法通过，xenomai的自带例程涉及到 rtdm 的无法使用，自己写程序的时候需要有xenomai.cmake模块才能编译，不知道该如何处理rtai的问题。 xenomai2.6.5 + ubuntu12/14，可以使用，但是系统版本太老了… preempt_rt + Ubuntu16.04，当前使用结果，preempt_rt 的实时内核能到 us 级，而 xenomai 能到 ns...</div></div></div></a><a class="pagination-related" href="/posts/d44fcc81.html" title="preempt_rt 实时内核补丁"><img class="cover" src="/images/post-6.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-16</div><div class="info-item-2">preempt_rt 实时内核补丁</div></div><div class="info-2"><div class="info-item-1">介绍在 Ubuntu16.04 下安装 preempt_rt 实时内核的方法。  注意：因为 Realtek 网卡的 Ethercat 驱动只支持到了 4.14 版本的内核，所以笔者最后使用了 4.14.226 版本：  linux-4.14.226.tar.xz: https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/ patch-4.14.226-rt109.patch.gz: https://mirrors.edge.kernel.org/pub/linux/kernel/projects/rt/4.14/older/  1 前言 硬件平台： Core™ i5-8400 CPU @ 2.80GHz × 6 软件平台： Ubuntu16.04.7 从 (https://mirrors.edge.kernel.org/pub/linux/kernel/v4.x/) 下载4.19.72版本的内核 linux-4.19.72.tar.xz。 从...</div></div></div></a><a class="pagination-related" href="/posts/e2bb99c2.html" title="KDL的安装"><img class="cover" src="/images/post-4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-06</div><div class="info-item-2">KDL的安装</div></div><div class="info-2"><div class="info-item-1"> 1 前言 为了快速搭建一个机器人控制器，方便后期进行机器人控制算法开发，需要用到 Orocos 的 KDL 库。本文将介绍一下 KDL 相关的基础知识。 2 Orocos 2.1 综述 “Orocos”代表“Open Robot Control Software”，即开源机器人控制软件。 Orocos 为软件开发人员提供了开源的机器人软件框架，提供了很多功能，方便开发人员快速的开发机器人软件模块。Orocos 由 Kinematics Dynamics Library(KDL)，Bayesian Filtering Library 及 Orocos Toolchain 组成。 官方网站：https://orocos.org/ 2.2 KDL KDL（Kinematics and Dynamics）：机器人运动学与动力学组件，为运动学提供了实时的动力学约束计算，这个组件非常有用，有了这个组件，很多机器人开发者可以快速地开发机器人算法。 这是本系列主要研究内容。 2.3 BFL BFL（Bayesian Filtering...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Cola &amp; Library</div><div class="author-info-description">Understand, do not memorize.</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">121</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果阅读过程中有任何疑问，欢迎评论或留言，看到后会及时回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">1 前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">2 安装流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">3 主站测试</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2026-01-20T13:30:00.000Z" title="发表于 2026-01-20 21:30:00">2026-01-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/97a87859.html" title="实时域和非实时域切换的问题"><img src="/images/post-1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="实时域和非实时域切换的问题"/></a><div class="content"><a class="title" href="/posts/97a87859.html" title="实时域和非实时域切换的问题">实时域和非实时域切换的问题</a><time datetime="2025-11-11T13:30:00.000Z" title="发表于 2025-11-11 21:30:00">2025-11-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="Diffusion Model学习笔记"><img src="/images/post-0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Diffusion Model学习笔记"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="Diffusion Model学习笔记">Diffusion Model学习笔记</a><time datetime="2025-10-23T08:30:00.000Z" title="发表于 2025-10-23 16:30:00">2025-10-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/49bc99af.html" title="spatialmath 库的使用"><img src="/images/post-9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="spatialmath 库的使用"/></a><div class="content"><a class="title" href="/posts/49bc99af.html" title="spatialmath 库的使用">spatialmath 库的使用</a><time datetime="2025-07-17T06:30:00.000Z" title="发表于 2025-07-17 14:30:00">2025-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/7a957769.html" title="阻抗控制"><img src="/images/post-8.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="阻抗控制"/></a><div class="content"><a class="title" href="/posts/7a957769.html" title="阻抗控制">阻抗控制</a><time datetime="2025-07-10T06:30:00.000Z" title="发表于 2025-07-10 14:30:00">2025-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By Cola & Library</div><div class="footer_custom_text"><span id="runtime"></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script async src="//at.alicdn.com/t/font_2264842_3izu8i5eoc2.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --></body></html>
