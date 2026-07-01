@@ -6,7 +6,7 @@
   <link href="https://colainlibrary.com/atom.xml" rel="self"/>
   
   <link href="https://colainlibrary.com/"/>
-  <updated>2026-06-30T13:04:14.533Z</updated>
+  <updated>2026-07-01T02:16:11.418Z</updated>
   <id>https://colainlibrary.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>实时域和非实时域切换的问题</title>
+    <title>Xenomai API学习记录</title>
     <link href="https://colainlibrary.com/posts/97a87859.html"/>
     <id>https://colainlibrary.com/posts/97a87859.html</id>
     <published>2026-01-20T13:30:00.000Z</published>
-    <updated>2026-06-30T13:04:14.533Z</updated>
+    <updated>2026-07-01T02:16:11.418Z</updated>
     
     
     <summary type="html">记录实时系统中从实时域切换到非实时域的情况</summary>
@@ -84,7 +84,7 @@
     <link href="https://colainlibrary.com/posts/49bc99af.html"/>
     <id>https://colainlibrary.com/posts/49bc99af.html</id>
     <published>2025-07-17T06:30:00.000Z</published>
-    <updated>2025-07-17T07:51:15.755Z</updated>
+    <updated>2025-10-29T04:26:38.918Z</updated>
     
     
     <summary type="html">记录spatialmath 库的使用</summary>
@@ -105,7 +105,7 @@
     <link href="https://colainlibrary.com/posts/7a957769.html"/>
     <id>https://colainlibrary.com/posts/7a957769.html</id>
     <published>2025-07-10T06:30:00.000Z</published>
-    <updated>2025-07-10T09:02:36.308Z</updated>
+    <updated>2025-10-29T04:26:38.970Z</updated>
     
     
     <summary type="html">记录阻抗控制的公式推导</summary>
@@ -126,7 +126,7 @@
     <link href="https://colainlibrary.com/posts/d3d99e8b.html"/>
     <id>https://colainlibrary.com/posts/d3d99e8b.html</id>
     <published>2025-07-09T01:30:00.000Z</published>
-    <updated>2025-07-09T03:08:26.484Z</updated>
+    <updated>2025-10-29T04:26:39.094Z</updated>
     
     
     <summary type="html">记录速度阻尼项的作用</summary>
@@ -147,7 +147,7 @@
     <link href="https://colainlibrary.com/posts/18d53220.html"/>
     <id>https://colainlibrary.com/posts/18d53220.html</id>
     <published>2025-07-08T06:30:00.000Z</published>
-    <updated>2025-07-09T01:53:19.670Z</updated>
+    <updated>2025-10-29T04:26:39.094Z</updated>
     
     
     <summary type="html">记录使用一些库来求解QP问题</summary>
@@ -168,7 +168,7 @@
     <link href="https://colainlibrary.com/posts/18d53220.html"/>
     <id>https://colainlibrary.com/posts/18d53220.html</id>
     <published>2025-06-19T09:30:00.000Z</published>
-    <updated>2025-06-19T06:45:46.653Z</updated>
+    <updated>2025-10-29T04:26:39.094Z</updated>
     
     
     <summary type="html">记录git常用的一些操作</summary>
@@ -189,7 +189,7 @@
     <link href="https://colainlibrary.com/posts/c3864a61.html"/>
     <id>https://colainlibrary.com/posts/c3864a61.html</id>
     <published>2025-06-13T09:30:00.000Z</published>
-    <updated>2025-06-19T06:27:43.571Z</updated>
+    <updated>2025-10-29T04:26:39.094Z</updated>
     
     
     <summary type="html">记录可操作度雅可比矩阵的推导过程</summary>
@@ -212,7 +212,7 @@
     <link href="https://colainlibrary.com/posts/b0ab195e.html"/>
     <id>https://colainlibrary.com/posts/b0ab195e.html</id>
     <published>2025-06-11T05:30:00.000Z</published>
-    <updated>2025-09-03T07:10:07.725Z</updated>
+    <updated>2025-10-29T04:26:39.090Z</updated>
     
     
     <summary type="html">记录Mujoco的学习</summary>
@@ -258,7 +258,7 @@
     <link href="https://colainlibrary.com/posts/fb6fe6b6.html"/>
     <id>https://colainlibrary.com/posts/fb6fe6b6.html</id>
     <published>2025-05-07T08:30:00.000Z</published>
-    <updated>2025-05-07T08:54:43.837Z</updated>
+    <updated>2025-10-29T04:26:38.970Z</updated>
     
     
     <summary type="html">记录GoogleTest的使用方法</summary>
@@ -281,7 +281,7 @@
     <link href="https://colainlibrary.com/posts/99d4265e.html"/>
     <id>https://colainlibrary.com/posts/99d4265e.html</id>
     <published>2025-05-06T08:30:00.000Z</published>
-    <updated>2025-05-07T03:07:54.909Z</updated>
+    <updated>2025-10-29T04:26:38.970Z</updated>
     
     
     <summary type="html">记录在external_app工程中使用Cmake来指定mylib.so中宏定义的方法</summary>
@@ -304,7 +304,7 @@
     <link href="https://colainlibrary.com/posts/8b803b13.html"/>
     <id>https://colainlibrary.com/posts/8b803b13.html</id>
     <published>2025-04-28T08:30:00.000Z</published>
-    <updated>2025-05-07T06:03:58.883Z</updated>
+    <updated>2025-10-29T04:26:38.970Z</updated>
     
     
     <summary type="html">记录时间最优轨迹规划的实现方法</summary>
@@ -327,7 +327,7 @@
     <link href="https://colainlibrary.com/posts/ec55014e.html"/>
     <id>https://colainlibrary.com/posts/ec55014e.html</id>
     <published>2025-04-25T08:30:00.000Z</published>
-    <updated>2025-05-06T06:51:31.679Z</updated>
+    <updated>2025-10-29T04:26:38.970Z</updated>
     
     
     <summary type="html">记录OCS2学习过程中的C++知识</summary>
@@ -350,7 +350,7 @@
     <link href="https://colainlibrary.com/posts/4072a4f.html"/>
     <id>https://colainlibrary.com/posts/4072a4f.html</id>
     <published>2025-04-22T02:30:00.000Z</published>
-    <updated>2025-04-22T06:36:50.413Z</updated>
+    <updated>2025-10-29T04:26:38.978Z</updated>
     
     
     <summary type="html">总结Rviz中添加Marker并显示的方法</summary>
@@ -373,7 +373,7 @@
     <link href="https://colainlibrary.com/posts/6072d733.html"/>
     <id>https://colainlibrary.com/posts/6072d733.html</id>
     <published>2025-04-17T02:30:00.000Z</published>
-    <updated>2025-04-17T06:43:52.208Z</updated>
+    <updated>2025-10-29T04:26:38.994Z</updated>
     
     
     <summary type="html">总结概率论的基础知识</summary>
@@ -396,7 +396,7 @@
     <link href="https://colainlibrary.com/posts/583bf617.html"/>
     <id>https://colainlibrary.com/posts/583bf617.html</id>
     <published>2025-04-16T08:30:00.000Z</published>
-    <updated>2025-04-21T06:50:11.251Z</updated>
+    <updated>2025-10-29T04:26:39.010Z</updated>
     
     
     <summary type="html">记录FCL库的安装过程</summary>
@@ -419,7 +419,7 @@
     <link href="https://colainlibrary.com/posts/fe16da94.html"/>
     <id>https://colainlibrary.com/posts/fe16da94.html</id>
     <published>2025-04-15T08:30:00.000Z</published>
-    <updated>2025-04-17T08:48:07.688Z</updated>
+    <updated>2025-10-29T04:26:39.030Z</updated>
     
     
     <summary type="html">记录强化学习rsl-rl库的代码学习</summary>
@@ -442,7 +442,7 @@
     <link href="https://colainlibrary.com/posts/dcc13c09.html"/>
     <id>https://colainlibrary.com/posts/dcc13c09.html</id>
     <published>2025-04-15T06:30:00.000Z</published>
-    <updated>2025-04-15T07:15:47.014Z</updated>
+    <updated>2025-10-29T04:26:39.038Z</updated>
     
     
     <summary type="html">记录 LeggedGym 安装过程</summary>
